@@ -1,18 +1,4 @@
-// eventually we should pull types into types.ts and import them where needed
-
-// properties of a bracket match
-export type BracketType = {
-  contestant: string | undefined;
-  votes: number;
-  left: BracketType | null;
-  right: BracketType | null;
-  round: number;
-};
-
-// typing for function that makes bracket matches
-export type bracketConstructor = {
-  (contestants: string[] | null, round: number): BracketType;
-};
+import { BracketType, bracketConstructor } from '../types';
 
 // constructor function for making bracket matches
 const bracketPart = (contestants: string[] | null, round: number) => {
