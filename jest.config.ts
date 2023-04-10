@@ -1,11 +1,11 @@
 export default {
-  testEnvironment: 'jsdom',
+  roots: ['<rootDir>'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.ts?$': 'ts-jest',
   },
-  moduleNameMapper: {
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
-    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-  },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$',
+  moduleFileExtensions: ['ts', 'js', 'json', 'node'],
+  collectCoverage: true,
+  clearMocks: true,
+  coverageDirectory: 'coverage',
 };

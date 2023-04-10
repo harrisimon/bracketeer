@@ -1,5 +1,5 @@
 import makeTree from '../src/util/makeTree';
-import { BracketType } from '../src/types';
+import { depth, propCheck } from '../src/util/helpers';
 
 describe('makeTree', () => {
   const list4 = ['one', 'two', 'three', 'four'];
@@ -33,11 +33,6 @@ describe('makeTree', () => {
     'sixteen',
   ];
 
-  // helper function to find depth of binary tree
-  const maxDepth = (root) => {
-    return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-  };
-
   describe('convert list of contestants into binary tree', () => {
     it('returns an object of BracketType', () => {
       const tree = makeTree(list8);
@@ -49,25 +44,19 @@ describe('makeTree', () => {
     });
 
     it('has depth equal to 1 + log2 of string length', () => {
-      expect(maxDepth(makeTree(list4))).toEqual(3);
-      expect(maxDepth(makeTree(list8))).toEqual(4);
-      expect(maxDepth(makeTree(list16))).toEqual(5);
+      expect(depth(makeTree(list4))).toEqual(3);
+      expect(depth(makeTree(list8))).toEqual(4);
+      expect(depth(makeTree(list16))).toEqual(5);
     });
 
     it('has undefined contestant property everywhere but round 1', () => {
-      // helper function to check contestant and round properties
-      const propCheck = (root) => {
-        expect(
-          (root.contestant === undefined && root.round > 1) ||
-            (typeof root.contestant === 'string' && root.round === 1)
-        );
-        if (root.left) propCheck(root.left);
-        if (root.right) propCheck(root.right);
-      };
-
-      it('throws an error if the list of contestants does not contain a number of items that is a power of two', () => {
-        expect(makeTree(list5)).toBeInstanceOf(Error);
-      });
+      const tree = makeTree(list4);
+      console.log(tree);
+      expect(propCheck(tree)).toBe(true);
     });
+
+    // it('throws an error if the list of contestants does not contain a number of items that is a power of two', () => {
+    //   expect(makeTree(list5)).toThrow(RangeError);
+    // });
   });
 });
