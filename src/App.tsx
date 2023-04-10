@@ -1,14 +1,27 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import BracketLeaf from './components/BracketLeaf'
 import './App.css'
+import BracketNode from './components/BracketNode'
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const data = {
+    left: {
+      name: 'Red Dead Redemption 2',
+      votes: 4
+    },
+    right: {
+      name: 'Ocarina of Time',
+      votes: 6
+    }
+  }
+
   return (
     <div className="App">
-      <div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -27,7 +40,10 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
+      
+
+      <BracketNode data={data} />
     </div>
   )
 }
