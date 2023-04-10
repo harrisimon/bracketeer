@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.29% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/17</span>
+                <span class='fraction'>15/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>8/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.66% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/12</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -87,52 +87,73 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { BracketType } from '../types';
-import { depth as depthRecursive } from './helpers';
+import makeTree from './makeTree';
+// import { depthWrapper } from './helpers';
 &nbsp;
-// // helper function to find depth of binary tree
-// export function maxDepth(root: BracketType | null): number {
-//   return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-// }
-&nbsp;
-export function depth(root: BracketType | null): number {
-  if (!root) return 0;
-  return 1 + depthRecursive(root.left);
+// helper function to find depth of binary tree
+export function <span class="fstat-no" title="function not covered" >maxDepth(</span>root: BracketType | null): number {
+<span class="cstat-no" title="statement not covered" >  return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));</span>
 }
 &nbsp;
+export interface depthWrapperType {
+  depth: (root: BracketType | null) =&gt; number;
+}
+&nbsp;
+export const depthWrapper: depthWrapperType = {
+  depth: (root) =&gt; {
+    if (!root) return 0;
+    return 1 + depthWrapper.depth(root.left);
+  },
+};
+&nbsp;
 // helper function to check whether contestant names are only populated in outermost nodes
-export function <span class="fstat-no" title="function not covered" >propCheck(</span>root: BracketType | null): boolean | undefined {
-<span class="cstat-no" title="statement not covered" >  console.log(root);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (root !== null) {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (root.contestant === undefined &amp;&amp; root.round === 1) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof root.contestant === 'string' &amp;&amp; root.round &gt; 1) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (root.left) <span class="cstat-no" title="statement not covered" >propCheck(root.left);</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (root.right) <span class="cstat-no" title="statement not covered" >propCheck(root.right);</span></span>
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+export function propCheck(root: BracketType | null): boolean | undefined {
+  console.log(root);
+  if (root !== null) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (root.contestant === undefined &amp;&amp; root.round === 1) <span class="cstat-no" title="statement not covered" >return false;</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof root.contestant === 'string' &amp;&amp; root.round &gt; 1) <span class="cstat-no" title="statement not covered" >return false;</span>
+    if (root.left) propCheck(root.left);
+    if (root.right) propCheck(root.right);
+    return true;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -142,7 +163,7 @@ export function <span class="fstat-no" title="function not covered" >propCheck(<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-10T17:37:03.192Z
+                at 2023-04-10T22:38:48.856Z
             </div>
         <script src="prettify.js"></script>
         <script>
