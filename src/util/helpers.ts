@@ -1,15 +1,22 @@
 import { BracketType } from '../types';
-import { depth as depthRecursive } from './helpers';
+import makeTree from './makeTree';
+// import { depthWrapper } from './helpers';
 
-// // helper function to find depth of binary tree
-// export function maxDepth(root: BracketType | null): number {
-//   return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-// }
-
-export function depth(root: BracketType | null): number {
-  if (!root) return 0;
-  return 1 + depthRecursive(root.left);
+// helper function to find depth of binary tree
+export function maxDepth(root: BracketType | null): number {
+  return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 }
+
+export interface depthWrapperType {
+  depth: (root: BracketType | null) => number;
+}
+
+export const depthWrapper: depthWrapperType = {
+  depth: (root) => {
+    if (!root) return 0;
+    return 1 + depthWrapper.depth(root.left);
+  },
+};
 
 // helper function to check whether contestant names are only populated in outermost nodes
 export function propCheck(root: BracketType | null): boolean | undefined {
