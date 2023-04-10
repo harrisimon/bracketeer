@@ -1,11 +1,15 @@
-export type BracketType = {
+export interface BracketType {
   contestant: string | undefined;
   votes: number;
   left: BracketType | null;
   right: BracketType | null;
   round: number;
-};
+}
 
-export type bracketConstructor = {
+export interface BracketConstructor {
   (contestants: string[] | null, round: number): BracketType;
-};
+}
+
+export interface DepthWrapperType {
+  depth: (root: BracketType | null) => number;
+}

@@ -1,6 +1,9 @@
-import { BracketType, bracketConstructor } from '../types';
+import { BracketType } from '../types';
 
 // constructor function for making bracket matches
+// function wrapped in object for jest testing
+// see https://stackoverflow.com/questions/45102677/testing-recursive-calls-in-jest
+
 const bracketPartWrapper = {
   bracketPart: (contestants: string[] | null, round: number) => {
     // only add contestant names to the outermost columns / round 1
@@ -34,25 +37,6 @@ const makeBracket = (contestants: string[]) => {
   return bracketPartWrapper.bracketPart(contestants, rounds);
 };
 
-console.log(makeBracket(['one', 'two', 'three', 'four']));
-
-// function propCheck(root: BracketType | null): boolean | undefined {
-//   console.log(root);
-//   if (root !== null) {
-//     if (root.contestant === undefined && root.round === 1) return false;
-//     if (typeof root.contestant === 'string' && root.round > 1) return false;
-//     if (root.left) propCheck(root.left);
-//     if (root.right) propCheck(root.right);
-//     return true;
-//   }
-// }
-
-// function depth(root: BracketType | null): number {
-//   if (!root) return 0;
-//   return 1 + depth(root.left);
-// }
-
-// console.log(propCheck(tree));
-// console.log(depth(tree));
+// console.log(makeBracket(['one', 'two', 'three', 'four']));
 
 export default makeBracket;

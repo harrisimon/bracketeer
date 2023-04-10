@@ -1,17 +1,8 @@
-import { BracketType } from '../types';
-import makeTree from './makeTree';
-// import { depthWrapper } from './helpers';
+import { BracketType, DepthWrapperType } from '../types';
 
-// helper function to find depth of binary tree
-export function maxDepth(root: BracketType | null): number {
-  return !root ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-}
-
-export interface depthWrapperType {
-  depth: (root: BracketType | null) => number;
-}
-
-export const depthWrapper: depthWrapperType = {
+// function wrapped in object for jest testing
+// see https://stackoverflow.com/questions/45102677/testing-recursive-calls-in-jest
+export const depthWrapper: DepthWrapperType = {
   depth: (root) => {
     if (!root) return 0;
     return 1 + depthWrapper.depth(root.left);

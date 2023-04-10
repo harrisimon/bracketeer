@@ -3,7 +3,7 @@ import { propCheck, depthWrapper } from '../src/util/helpers';
 
 describe('makeTree', () => {
   const list4 = ['one', 'two', 'three', 'four'];
-  const list5 = ['one', 'two', 'three', 'four', 'five'];
+  // const list5 = ['one', 'two', 'three', 'four', 'five'];
   const list8 = [
     'one',
     'two',
@@ -14,24 +14,7 @@ describe('makeTree', () => {
     'seven',
     'eight',
   ];
-  const list16 = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'seven',
-    'eight',
-    'nine',
-    'ten',
-    'eleven',
-    'twelve',
-    'thirteen',
-    'fourteen',
-    'fifteen',
-    'sixteen',
-  ];
+
   const tree4 = makeTree(list4);
   const tree8 = makeTree(list8);
 
