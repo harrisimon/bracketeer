@@ -30,7 +30,7 @@ const bracketPartWrapper = {
   },
 };
 
-const makeBracket = (contestants: string[]) => {
+const makeTree = (contestants: string[]) => {
   // reverse the array so we can pop rather than shift as we add elements
   contestants = contestants.reverse();
   // add one to account for the top node of the tree
@@ -39,6 +39,6 @@ const makeBracket = (contestants: string[]) => {
   return bracketPartWrapper.bracketPart(contestants, rounds);
 };
 
-console.log(makeBracket(['one', 'two', 'three', 'four']));
+console.log(makeTree(['one', 'two', 'three', 'four']));
 
-export default makeBracket;
+export default makeTree;

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import BracketLeaf from './components/BracketLeaf'
+import BracketLeaf from './../client/components/BracketLeaf'
 import './App.css'
-import BracketNode from './components/BracketNode'
+import BracketNode from './../client/components/BracketNode'
 
 function App() {
   const [count, setCount] = useState(0)
