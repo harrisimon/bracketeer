@@ -3,7 +3,7 @@ import { BracketType } from '../types';
 import makeTree from '../util/makeTree';
 import mongoose from 'mongoose';
 
-// actually connect to mongo to try this out
+// connect to mongo
 const MONGO_URI =
   'mongodb+srv://jdhammond:codesmith@cluster0.1ald32x.mongodb.net/?retryWrites=true&w=majority';
 
@@ -11,7 +11,10 @@ mongoose
   .connect(MONGO_URI, {
     dbName: 'bracketeer-test',
   })
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB');
+    run().catch((err) => console.log(err));
+  })
   .catch((err) => console.log(err));
 
 interface BracketSchemaType {
@@ -22,53 +25,52 @@ interface BracketSchemaType {
   contestant2votes: Number;
   next?: Types.ObjectId;
   round: Number;
+  // matchNumber: Number;
 }
 
-// schema for bracket
-const bracketSchema: Schema = new Schema<BracketSchemaType>({
-  contestant1: { type: Schema.Types.ObjectId, ref: 'contestant' },
-  contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
-  contestant1votes: { type: Number, default: 0 },
-  contestant2votes: { type: Number, default: 0 },
-  next: { type: Types.ObjectId, ref: 'Bracket' },
-  round: { type: Number, required: true },
-});
-
-const Bracket = model<BracketSchemaType>('Bracket', bracketSchema);
-
-// point to parent node?
-const makeBrackets = async (round: number, next?: Types.ObjectId) => {
-  // ??
-
-  const bracket = new Bracket({
-    round,
-    next,
+const run = async () => {
+  // schema for bracket
+  const bracketSchema: Schema = new Schema<BracketSchemaType>({
+    contestant1: { type: Schema.Types.ObjectId, ref: 'contestant' },
+    contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
+    contestant1votes: { type: Number, default: 0 },
+    contestant2votes: { type: Number, default: 0 },
+    next: { type: Types.ObjectId, ref: 'Bracket' },
+    round: { type: Number, required: true },
+    // matchNumber: { type: Number, required: true },
   });
 
-  await bracket.save();
+  const Bracket = model<BracketSchemaType>('bracket', bracketSchema);
 
-  if (round > 0) {
-    const currentRow: BracketSchemaType[] = await Bracket.find({
-      round: round,
-    }); // try taking out second round - should work here
-    currentRow.forEach((el: BracketSchemaType) => {
-      makeBrackets(round - 1, el.ObjectId);
+  // point to parent node?
+  const makeBrackets = async (round: number) => {
+    // make head node
+    await Bracket.create({
+      round,
+      next: null,
     });
-  }
+
+    while (round > 0) {
+      const currentRow = await Bracket.find({ round });
+      console.log('round is ' + round + ' current row is ' + currentRow.length);
+
+      for (let i = 0; i < currentRow.length; i++) {
+        const props = [
+          { round: round - 1, next: currentRow[i].ObjectId },
+          { round: round - 1, next: currentRow[i].ObjectId },
+        ];
+        await Bracket.insertMany(props);
+      }
+
+      round--;
+    }
+  };
+
+  const deleteAll = async () => await Bracket.deleteMany({});
+  deleteAll();
+
+  makeBrackets(3);
 };
-
-makeBrackets(4);
-
-async () => {
-  const allBrackets = await Bracket.find({});
-  console.log(allBrackets);
-};
-
-// recursive business
-// bracketSchema.add({ leftPreceding: bracketSchema });
-// bracketSchema.add({ rightPreceding: bracketSchema });
-
-// await connect
 
 // start recursive fn here w/number of entrants? number of rounds?
 
