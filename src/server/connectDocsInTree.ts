@@ -34,7 +34,10 @@ const run = async () => {
 
   // point to parent node?
   const makeBrackets = async (round: number) => {
-    let currentMatchNumber = round ** 2 - 1;
+    let currentMatchNumber = round ** 2;
+
+    // eventually get all the contestants -- from db? from front-end input?
+    //const contestants = Contestant.find({});
 
     // make head node
     await Bracket.create({
@@ -63,6 +66,13 @@ const run = async () => {
             matchNumber: --currentMatchNumber,
           },
         ];
+        /* if building the last row of the table/first round of the tournament, populate contestant fields
+        // maybe something like this??
+        /* if (round === 2) {
+          props[0].contestant1 = contestants.pop().ObjectId
+          props[1].contestant1 = contestants.pop().ObjectId
+        */
+
         await Bracket.insertMany(props);
       }
       round--;
