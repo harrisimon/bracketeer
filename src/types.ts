@@ -16,3 +16,14 @@ export interface BracketConstructor {
 export interface DepthWrapperType {
   depth: (root: BracketType | null) => number;
 }
+
+export interface BracketSchemaType {
+  ObjectId: Types.ObjectId;
+  contestant1?: BracketType; // fix -- contestants aren't brackets
+  contestant2?: BracketType;
+  contestant1votes: Number;
+  contestant2votes: Number;
+  next?: Number;
+  round: Number;
+  matchNumber: { type: Number };
+}

@@ -1,6 +1,8 @@
+// logic for creating individual documents for each matchup, with documents connected in terms of which winners play which winners
+// not well organized or modularized yet
+
 import { Schema, Types, model } from 'mongoose';
-import { BracketType } from '../types';
-import makeTree from '../util/makeTree';
+import { BracketSchemaType } from '../types';
 import mongoose from 'mongoose';
 
 // connect to mongo
@@ -17,17 +19,6 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-interface BracketSchemaType {
-  ObjectId: Types.ObjectId;
-  contestant1?: BracketType; // fix -- contestants aren't brackets
-  contestant2?: BracketType;
-  contestant1votes: Number;
-  contestant2votes: Number;
-  next?: Types.ObjectId;
-  round: Number;
-  // matchNumber: Number;
-}
-
 const run = async () => {
   // schema for bracket
   const bracketSchema: Schema = new Schema<BracketSchemaType>({
@@ -35,33 +26,46 @@ const run = async () => {
     contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
     contestant1votes: { type: Number, default: 0 },
     contestant2votes: { type: Number, default: 0 },
-    next: { type: Types.ObjectId, ref: 'Bracket' },
+    next: { type: Number },
     round: { type: Number, required: true },
-    // matchNumber: { type: Number, required: true },
+    matchNumber: { type: Number, required: true },
   });
 
   const Bracket = model<BracketSchemaType>('bracket', bracketSchema);
 
   // point to parent node?
   const makeBrackets = async (round: number) => {
+    let currentMatchNumber = round ** 2 - 1;
+
     // make head node
     await Bracket.create({
       round,
       next: null,
+      matchNumber: --currentMatchNumber,
     });
 
-    while (round > 0) {
+    console.log(await Bracket.find({ round }));
+
+    // make a new row below the current row
+    while (round > 1) {
       const currentRow = await Bracket.find({ round });
       console.log('round is ' + round + ' current row is ' + currentRow.length);
 
       for (let i = 0; i < currentRow.length; i++) {
         const props = [
-          { round: round - 1, next: currentRow[i].ObjectId },
-          { round: round - 1, next: currentRow[i].ObjectId },
+          {
+            round: round - 1,
+            next: currentRow[i].matchNumber,
+            matchNumber: --currentMatchNumber,
+          },
+          {
+            round: round - 1,
+            next: currentRow[i].matchNumber,
+            matchNumber: --currentMatchNumber,
+          },
         ];
         await Bracket.insertMany(props);
       }
-
       round--;
     }
   };
@@ -71,23 +75,3 @@ const run = async () => {
 
   makeBrackets(3);
 };
-
-// start recursive fn here w/number of entrants? number of rounds?
-
-/*
-run().catch(err => console.log(err));
-
-async function run() {
-  // 4. Connect to MongoDB
-  await connect('mongodb://127.0.0.1:27017/test');
-
-  const user = new User({
-    name: 'Bill',
-    email: 'bill@initech.com',
-    avatar: 'https://i.imgur.com/dM7Thhn.png'
-  });
-  await user.save();
-
-  console.log(user.email); // 'bill@initech.com'
-}
-*/
