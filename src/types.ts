@@ -6,7 +6,6 @@ export interface BracketType {
   left: BracketType | null;
   right: BracketType | null;
   round: number;
-  next: Types.ObjectId;
 }
 
 export interface BracketConstructor {

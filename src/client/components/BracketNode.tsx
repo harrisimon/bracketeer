@@ -14,7 +14,7 @@ interface NodeProps {
 }
 const BracketNode = (props: NodeProps) => {
 	const { data } = props
-	console.log(data)
+
 	return (
 		<div>
 			<BracketLeaf name={data.left.name} votes={data.left.votes} />

@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import BracketLeaf from './../client/components/BracketLeaf'
-import './App.css'
-import BracketNode from './../client/components/BracketNode'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import BracketLeaf from './../client/components/BracketLeaf';
+import './App.css';
+import BracketNode from './../client/components/BracketNode';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   const data = {
     left: {
       name: 'Red Dead Redemption 2',
-      votes: 4
+      votes: 4,
     },
     right: {
       name: 'Ocarina of Time',
-      votes: 6
-    }
-  }
+      votes: 6,
+    },
+  };
 
   return (
-    <div className="App">
+    <div className='App'>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -41,11 +41,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p> */}
-      
 
       <BracketNode data={data} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

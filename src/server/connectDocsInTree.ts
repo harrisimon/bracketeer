@@ -8,7 +8,6 @@ import mongoose from 'mongoose';
 // connect to mongo
 const MONGO_URI =
   'mongodb+srv://jdhammond:codesmith@cluster0.1ald32x.mongodb.net/?retryWrites=true&w=majority';
-
 mongoose
   .connect(MONGO_URI, {
     dbName: 'bracketeer-test',
@@ -70,8 +69,9 @@ const run = async () => {
     }
   };
 
+  // while testing, clear the DB before writing again
   const deleteAll = async () => await Bracket.deleteMany({});
   deleteAll();
 
-  makeBrackets(3);
+  makeBrackets(4);
 };
