@@ -6,7 +6,7 @@ import BracketNode from "./components/BracketNode"
 function App() {
 	const [count, setCount] = useState(0)
 	let gameData = makeBracket(["1", "2", "3", "4", "5", "6", "7", "8"])
-	console.log(JSON.stringify(gameData))
+	// console.log(JSON.stringify(gameData))
 
 
 	const data = {

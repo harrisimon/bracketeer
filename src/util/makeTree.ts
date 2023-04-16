@@ -130,7 +130,7 @@ const getMatchUpsByRound = (curr: BracketType, target: Number, output: BracketTy
   return output;
 }
 
-console.log(getMatchUpsByRound(gameData, 4))
+console.log(getMatchUpsByRound(gameData, 1))
 export default makeBracket;
 
 
