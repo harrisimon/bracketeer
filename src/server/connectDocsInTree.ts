@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 // connect to mongo
 const MONGO_URI =
-  'mongodb+srv://jdhammond:codesmith@cluster0.1ald32x.mongodb.net/?retryWrites=true&w=majority';
+  'mongodb+srv://harrisimon:Duct7apeWallet@movielogger.rvys3ds.mongodb.net/test';
 mongoose
   .connect(MONGO_URI, {
     dbName: 'bracketeer-test',
