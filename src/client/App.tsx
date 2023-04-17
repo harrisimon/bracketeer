@@ -1,28 +1,27 @@
-import { useState } from "react"
-import "./App.css"
-import makeBracket from "./util/makeTree"
-import BracketNode from "./components/BracketNode"
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import BracketLeaf from './../client/components/BracketLeaf';
+import './App.css';
+import BracketNode from './../client/components/BracketNode';
 
 function App() {
-	const [count, setCount] = useState(0)
-	let gameData = makeBracket(["1", "2", "3", "4", "5", "6", "7", "8"])
-	// console.log(JSON.stringify(gameData))
+  const [count, setCount] = useState(0);
 
+  const data = {
+    left: {
+      name: 'Red Dead Redemption 2',
+      votes: 4,
+    },
+    right: {
+      name: 'Ocarina of Time',
+      votes: 6,
+    },
+  };
 
-	const data = {
-		left: {
-			name: "Red Dead Redemption 2",
-			votes: 4,
-		},
-		right: {
-			name: "Ocarina of Time",
-			votes: 6,
-		},
-	}
-
-	return (
-		<div className="App">
-			{/* <div>
+  return (
+    <div className='App'>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -43,9 +42,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p> */}
 
-			<BracketNode data={data} />
-		</div>
-	)
+      <BracketNode data={data} />
+    </div>
+  );
 }
 
-export default App
+export default App;
