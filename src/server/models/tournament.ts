@@ -2,13 +2,10 @@ import { Schema, model } from 'mongoose';
 import { TournamentType, ContestantType } from '../../types';
 
 const TournamentSchema: Schema = new Schema<TournamentType>({
-  contestants: {
-    type: {} as ContestantType[],
-    required: true,
-  },
-  startTime: Number,
-  roundInterval: Number,
+  createTime: Number,
+  roundInterval: { type: Number, default: 24 * 60 * 60 * 1000 }, // default: 1 day in ms
   displayVotesDuringRound: { type: Boolean, default: true },
+  // eventually add other props from types.ts -- leaving out for now
 });
 
 export const Tournament = model<TournamentType>('tournament', TournamentSchema);
