@@ -2,12 +2,12 @@
 // not well organized or modularized yet
 
 import { Schema, Types, model } from 'mongoose';
-import { BracketSchemaType } from '../types';
+import { MatchUpSchemaType } from '../types';
 import mongoose from 'mongoose';
 
 // connect to mongo
 const MONGO_URI =
-  'mongodb+srv://jdhammond:codesmith@cluster0.1ald32x.mongodb.net/?retryWrites=true&w=majority';
+  'mongodb+srv://harrisimon:Duct7apeWallet@movielogger.rvys3ds.mongodb.net/test';
 mongoose
   .connect(MONGO_URI, {
     dbName: 'bracketeer-test',
@@ -20,7 +20,7 @@ mongoose
 
 const run = async () => {
   // schema for bracket
-  const bracketSchema: Schema = new Schema<BracketSchemaType>({
+  const bracketSchema: Schema = new Schema<MatchUpSchemaType>({
     contestant1: { type: Schema.Types.ObjectId, ref: 'contestant' },
     contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
     contestant1votes: { type: Number, default: 0 },
@@ -30,7 +30,7 @@ const run = async () => {
     matchNumber: { type: Number, required: true },
   });
 
-  const Bracket = model<BracketSchemaType>('bracket', bracketSchema);
+  const Bracket = model<MatchUpSchemaType>('bracket', bracketSchema);
 
   // point to parent node?
   const makeBrackets = async (round: number) => {

@@ -16,7 +16,7 @@ export interface DepthWrapperType {
   depth: (root: BracketType | null) => number;
 }
 
-export interface BracketSchemaType {
+export interface MatchUpSchemaType {
   ObjectId: Types.ObjectId;
   contestant1?: BracketType; // fix -- contestants aren't brackets
   contestant2?: BracketType;
