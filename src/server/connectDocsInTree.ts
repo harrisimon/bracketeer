@@ -2,7 +2,7 @@
 // not well organized or modularized yet
 
 import { Schema, Types, model } from 'mongoose';
-import { MatchUpSchemaType } from '../types';
+import { MatchUpType } from '../types';
 import mongoose from 'mongoose';
 
 // connect to mongo
@@ -20,7 +20,7 @@ mongoose
 
 const run = async () => {
   // schema for bracket
-  const bracketSchema: Schema = new Schema<MatchUpSchemaType>({
+  const matchUpSchema: Schema = new Schema<MatchUpType>({
     contestant1: { type: Schema.Types.ObjectId, ref: 'contestant' },
     contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
     contestant1votes: { type: Number, default: 0 },
@@ -30,7 +30,7 @@ const run = async () => {
     matchNumber: { type: Number, required: true },
   });
 
-  const Bracket = model<MatchUpSchemaType>('bracket', bracketSchema);
+  const MatchUp = model<MatchUpType>('matchUp', matchUpSchema);
 
   // point to parent node?
   const makeBrackets = async (round: number) => {
@@ -40,7 +40,7 @@ const run = async () => {
     //const contestants = Contestant.find({});
 
     // make head node
-    await Bracket.create({
+    await MatchUp.create({
       round,
       next: null,
       matchNumber: --currentMatchNumber,
