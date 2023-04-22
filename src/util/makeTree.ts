@@ -8,7 +8,7 @@ const bracketPartWrapper = {
   bracketPart: (contestants: string[] | null, round: number) => {
     // only add contestant names to the outermost columns / round 1
     const contestant: string | undefined =
-      round === 1 ? contestants?.shift() : undefined;
+      round === 1 ? contestants?.pop() : undefined;
 
     const left: BracketType | null =
       round === 1
@@ -94,20 +94,21 @@ for each of THOSE, create two new
 */
 
 const makeBracket = (contestants: string[]) => {
+  // reverse the array so we can pop rather than shift as we add elements
+  contestants = contestants.reverse();
   // add one to account for the top node of the tree
   // for now discard extras beyond power of 2
   let rounds = Math.floor(Math.log2(contestants.length)) + 1;
   return bracketPartWrapper.bracketPart(contestants, rounds);
-
 };
 
-let gameData = makeBracket(["1", "2", "3", "4", "5", "6", "7", "8"])
-	// console.log(Object.entries(gameData))
-  const showAll = (o:any) => {
-    for(let entry of Object.entries(o)){
-      console.log(entry)
-    }
+let gameData = makeBracket(['1', '2', '3', '4', '5', '6', '7', '8']);
+// console.log(Object.entries(gameData))
+const showAll = (o: any) => {
+  for (let entry of Object.entries(o)) {
+    console.log(entry);
   }
+};
 
 // showAll(gameData)
 
@@ -119,20 +120,23 @@ let gameData = makeBracket(["1", "2", "3", "4", "5", "6", "7", "8"])
 
 // if current round number = desired round number, push current matchup to array
 // if current match has null children, do nothing
-// if current round number > desired round number, recurse 
-const getMatchUpsByRound = (curr: BracketType, target: Number, output: BracketType[] = []) => {
+// if current round number > desired round number, recurse
+const getMatchUpsByRound = (
+  curr: BracketType,
+  target: Number,
+  output: BracketType[] = []
+) => {
   if (curr.round === target) {
-    output.push(curr)
+    output.push(curr);
   } else {
-    if (curr.left !== null) getMatchUpsByRound(curr.left, target, output)
-    if (curr.right !== null) getMatchUpsByRound(curr.right, target, output)
+    if (curr.left !== null) getMatchUpsByRound(curr.left, target, output);
+    if (curr.right !== null) getMatchUpsByRound(curr.right, target, output);
   }
   return output;
-}
+};
 
-console.log(getMatchUpsByRound(gameData, 4))
+console.log(getMatchUpsByRound(gameData, 4));
 export default makeBracket;
-
 
 /*
 router.post("/weather", (req, res, next) => {
