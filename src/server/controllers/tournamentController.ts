@@ -1,9 +1,7 @@
 import { Controller, MatchUpInput } from '../../types';
-import { Tournament } from '../models/tournament';
-import { MatchUp } from '../models/matchUp';
-import { Contestant } from '../models/contestant';
-import dotenv from 'dotenv';
-dotenv.config();
+import { Tournament } from '../models/tournament.js';
+import { MatchUp } from '../models/matchUp.js';
+import { Contestant } from '../models/contestant.js';
 
 const tournamentController: Controller = {};
 
@@ -13,9 +11,12 @@ tournamentController.fetch = (req, res, next) => {
 };
 
 // Only for testing/dev
-tournamentController.deleteMatchUps = async (req, res, next) => {
+tournamentController.clearData = async (req, res, next) => {
+  console.log('delete time');
   try {
-    if (process.env.TESTENV) await MatchUp.deleteMany({});
+    await MatchUp.deleteMany({});
+    await Tournament.deleteMany({});
+    return next();
   } catch (err) {
     return next({
       log: `Error from tournamentController.deleteMatchUps: ${err}`,
@@ -26,12 +27,9 @@ tournamentController.deleteMatchUps = async (req, res, next) => {
 };
 
 tournamentController.create = async (req, res, next) => {
-  // check that req.body has a list of contestants
-  // check that the list's length is power of 2 (and within bounds? 4 - 64?)
+  // req.body should have a string array of contestants in seeded order, strongest to weakest
   console.log(req.body);
-
-  // create tournament
-  const { roundInterval, displayVotesDuringRound } = req.body;
+  const { contestants, roundInterval, displayVotesDuringRound } = req.body;
 
   try {
     const tournament = await Tournament.create({
@@ -44,42 +42,49 @@ tournamentController.create = async (req, res, next) => {
 
     // use connectDocsInTree logic
     // get number of rounds in this tournament:
+
     let round = Math.log2(req.body.contestants.length);
-    let currentMatchNumber = round ** 2;
+
+    // subtract 1 here beacuse the pre-increment isn't working in the .create() statements below. An async issue?
+    let currentMatchNumber = round ** 2 - 1;
 
     // make head node
     await MatchUp.create({
+      tournament: tournamentID,
       round,
-      next: null,
+      next: undefined,
       matchNumber: --currentMatchNumber,
     });
 
-    // assuming an array of contestants in seed order
-    let { contestants } = req.body;
     // indices for seeding
     let j = 0,
       k = contestants.length - 1;
 
     // make a new row below the current row
     while (round > 1) {
-      const currentRow = await MatchUp.find({ round });
+      const currentRow = await MatchUp.find({
+        round,
+        tournament: tournamentID,
+      });
 
       // use for loop - forEach doesn't work asynchronously
       for (let i = 0; i < currentRow.length; i++) {
         const props: MatchUpInput[] = [
           {
+            tournament: tournamentID,
             round: round - 1,
             next: currentRow[i].matchNumber,
             matchNumber: --currentMatchNumber,
           },
           {
+            tournament: tournamentID,
             round: round - 1,
             next: currentRow[i].matchNumber,
             matchNumber: --currentMatchNumber,
           },
         ];
-        // add logic for the first round: create two contestants for each matchup and associate them w/_id
 
+        // for each matchup in the first round: create two contestants for each matchup and associate them w/_id
         if (round === 2) {
           // for loop to avoid async/forEach problems
           for (let i = 0; i < props.length; i++) {
@@ -94,10 +99,10 @@ tournamentController.create = async (req, res, next) => {
               seed: k + 1,
             });
             props[i].contestant2 = contestant2.id;
+            // walk pointers in from the left and right of the array of contestants so that stronger and weaker seeds are matched against each other
+            j++;
+            k--;
           }
-          // walk pointers in from the left and right of the array of contestants so that stronger and weaker seeds are matched against each other
-          j--;
-          k--;
         }
 
         await MatchUp.insertMany(props);

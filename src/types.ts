@@ -31,7 +31,9 @@ export interface DepthWrapperType {
   depth: (root: BracketType | null) => number;
 }
 
+// consolidate these two interfaces - one can prob extend the other
 export interface MatchUpInput {
+  tournament: Types.ObjectId;
   contestant1?: Types.ObjectId;
   contestant2?: Types.ObjectId;
   round: number;

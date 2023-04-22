@@ -1,3 +1,6 @@
+// CURRENTLY NOT IN USE by anything else
+// once controllers are tested this can be deleted
+
 // logic for creating individual documents for each matchup, with documents connected in terms of which winners play which winners
 // not well organized or modularized yet
 
@@ -7,7 +10,8 @@ import mongoose from 'mongoose';
 
 // connect to mongo
 const MONGO_URI =
-  'mongodb+srv://harrisimon:Duct7apeWallet@movielogger.rvys3ds.mongodb.net/test';
+  //'mongodb+srv://harrisimon:Duct7apeWallet@movielogger.rvys3ds.mongodb.net/test';
+  'mongodb+srv://jdhammond:codesmith@cluster0.1ald32x.mongodb.net/test';
 mongoose
   .connect(MONGO_URI, {
     dbName: 'bracketeer-test',

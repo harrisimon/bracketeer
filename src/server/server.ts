@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose, { ConnectOptions } from 'mongoose';
-import tournamentRouter from './routes/tournamentRouter';
+import { tournamentRouter } from './routes/tournamentRouter.js';
 import { errorObject } from '../types';
 
 dotenv.config();
