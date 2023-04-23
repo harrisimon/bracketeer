@@ -6,8 +6,19 @@ import { Contestant } from '../models/contestant.js';
 const tournamentController: Controller = {};
 
 // just a placeholder for now to quiet the Typescript errors
-tournamentController.fetch = (req, res, next) => {
-  return next();
+tournamentController.getData = async (req, res, next) => {
+  const { tournamentID } = req.params;
+  try {
+    res.locals.tournament = await Tournament.findById(tournamentID);
+    res.locals.matchUps = await MatchUp.find({ tournament: tournamentID });
+    return next();
+  } catch (err) {
+    return next({
+      log: `Error from tournamentController.getData: ${err}`,
+      status: 500,
+      message: { err: 'Failed to get bracket data' },
+    });
+  }
 };
 
 // Only for testing/dev

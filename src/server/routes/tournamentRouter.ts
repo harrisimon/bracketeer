@@ -5,12 +5,12 @@ export const tournamentRouter = Router();
 
 tournamentRouter.get(
   '/:tournamentID',
-  tournamentController.fetch,
+  tournamentController.getData,
   (req, res) => {
     // imagining what this will eventually return
     // should this return just the tournament? return all the matchups associated with the tournamnet?
     // might need to be two routes
-    res.status(200).json(res.locals.data);
+    res.status(200).json(res.locals);
   }
 );
 
