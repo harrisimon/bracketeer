@@ -1,20 +1,28 @@
-// add api url
-// add user types
+import apiUrl from "./apiConfig"
 import axios from "axios"
+import { TournamentType } from "../../types"
 
-export const getUserBrackets = (user) => {
+export const postBracket = (data: TournamentType) => {
+	return axios({
+		method: "POST",
+		data,
+		url: apiUrl! + "/tournament",
+	})
+}
+
+export const getBracket = (id: string) => {
     return axios({
-        method: 'GET',
-        // api url
+        method: "GET",
+        url: apiUrl! + "/tournament/" + id,
     })
 }
 
-export const getAllBrackets = (user) => {
-    return axios({
-        method:'GET',
-        // api url
-    })
-}
+// export const getAllBrackets = (user) => {
+//     return axios({
+//         method:'GET',
+//         // api url
+//     })
+// }
 
 // createBracket
 

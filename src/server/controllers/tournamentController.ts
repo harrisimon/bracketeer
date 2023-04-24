@@ -21,6 +21,24 @@ tournamentController.getData = async (req, res, next) => {
   }
 };
 
+// delete one tournament
+tournamentController.deleteTournament = async (req, res, next) => {
+  const { tournamentID } = req.params;
+  try {
+    console.log('id',tournamentID)
+    res.locals.matchUps = await MatchUp.deleteMany({ tournament: tournamentID });
+    res.locals.tournament = await Tournament.findByIdAndDelete(tournamentID);
+    return next();
+  } catch (err){
+    return next({
+      log: `Error from tournamentController.deleteTournament: ${err}`,
+      status: 500,
+      message: { err: 'Failed to delete tournament' },
+    })
+  }
+}
+
+
 // Only for testing/dev
 tournamentController.clearData = async (req, res, next) => {
   console.log('delete time');
@@ -129,7 +147,6 @@ tournamentController.create = async (req, res, next) => {
     });
   }
 
-  return next();
 };
 
 export default tournamentController;
