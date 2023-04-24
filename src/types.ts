@@ -1,4 +1,19 @@
 import { Types } from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
+
+export interface Controller {
+  [k: string]: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void> | void;
+}
+
+export interface errorObject {
+  log: string;
+  status: number;
+  message: { err: string };
+}
 
 export interface BracketType {
   contestant: string | undefined;
@@ -16,13 +31,40 @@ export interface DepthWrapperType {
   depth: (root: BracketType | null) => number;
 }
 
-export interface MatchUpSchemaType {
+// consolidate these two interfaces - one can prob extend the other
+export interface MatchUpInput {
+  tournament: Types.ObjectId;
+  contestant1?: Types.ObjectId;
+  contestant2?: Types.ObjectId;
+  round: number;
+  next: number;
+  matchNumber: number;
+}
+
+export interface MatchUpType {
   ObjectId: Types.ObjectId;
-  contestant1?: BracketType; // fix -- contestants aren't brackets
-  contestant2?: BracketType;
-  contestant1votes: Number;
-  contestant2votes: Number;
-  next?: Number;
-  round: Number;
-  matchNumber: { type: Number };
+  tournament: Types.ObjectId; //?
+  contestant1?: ContestantType;
+  contestant2?: ContestantType;
+  contestant1votes: number;
+  contestant2votes: number;
+  next?: number;
+  round: number;
+  matchNumber: number;
+}
+
+export interface ContestantType {
+  name: String;
+  seed: number;
+}
+
+// consider this drafty
+export interface TournamentType {
+  createTime: number; // unix timestamp
+  roundInterval: number; //number?
+  displayVotesDuringRound: boolean;
+  // createdBy: User;
+  // participants: User[]s
+  // winner - for easier re-access to winner later, if that's anything that matters?
+  // (we might want an option for it to be open to any user -- could use an empty participant list for this, or add a prop for it)
 }
