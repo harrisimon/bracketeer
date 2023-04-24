@@ -21,6 +21,7 @@ tournamentController.getData = async (req, res, next) => {
   }
 };
 
+
 // Only for testing/dev
 tournamentController.clearData = async (req, res, next) => {
   console.log('delete time');
@@ -129,7 +130,6 @@ tournamentController.create = async (req, res, next) => {
     });
   }
 
-  return next();
 };
 
 export default tournamentController;
