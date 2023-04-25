@@ -9,7 +9,6 @@
   padding: 2em;
 }
 
-
 .bracket-leaf {
   display: flex;
   flex-direction: column;
@@ -17,6 +16,6 @@
   padding: 8px;
   padding-top: 0;
   padding-bottom: 0;
- 
-  background-color:lightgray;
+
+  background-color: lightgray;
 }

@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface Controller {
   [k: string]: (
@@ -64,7 +65,19 @@ export interface TournamentType {
   roundInterval: number; //number?
   displayVotesDuringRound: boolean;
   // createdBy: User;
-  // participants: User[]s
+  // openToAll: boolean;
+  // participants: User[]s <== actually, each user should have an array of associated tournament ids - much faster
   // winner - for easier re-access to winner later, if that's anything that matters?
   // (we might want an option for it to be open to any user -- could use an empty participant list for this, or add a prop for it)
+}
+
+export interface SliderProps {
+  sliderVal: number;
+  setSliderVal: Dispatch<SetStateAction<number>>;
+}
+
+export interface InputProps {
+  contestants: string[];
+  setContestants: Dispatch<SetStateAction<string[]>>;
+  sliderVal: number;
 }
