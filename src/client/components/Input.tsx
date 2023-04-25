@@ -26,7 +26,11 @@ const Input = () => {
         setContestants={setContestants}
         sliderVal={sliderVal}
       /> */}
+      <form>
+
       <Contestants contestants={contestants} setContestants={setContestants} />
+      <button>Submit!</button>
+      </form>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { ContestantProps } from "../../types"
 const Contestants = ({ contestants, setContestants }: ContestantProps) => {
 	// console.log(contestants)
 
-	const handleChange = (e: FormEvent<HTMLInputElement>, index: Number) => {
+	const handleChange = (e: FormEvent<HTMLInputElement>, index: number) => {
 		let items: string[] = [...contestants]
 		let item: string = [...items[index]]
 		item = e.currentTarget.value
@@ -22,6 +22,7 @@ const Contestants = ({ contestants, setContestants }: ContestantProps) => {
 				onChange={(e) => handleChange(e, index)}
 				maxLength={64}
 			/>
+			
         </div>
 		
 	))
