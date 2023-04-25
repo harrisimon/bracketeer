@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface Controller {
   [k: string]: (
@@ -70,4 +71,13 @@ export interface TournamentType {
   // (we might want an option for it to be open to any user -- could use an empty participant list for this, or add a prop for it)
 }
 
+export interface SliderProps {
+  sliderVal: number;
+  setSliderVal: Dispatch<SetStateAction<number>>;
+}
 
+export interface InputProps {
+  contestants: string[];
+  setContestants: Dispatch<SetStateAction<string[]>>;
+  sliderVal: number;
+}
