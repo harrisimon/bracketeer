@@ -81,3 +81,9 @@ export interface InputProps {
   setContestants: Dispatch<SetStateAction<string[]>>;
   sliderVal: number;
 }
+
+export interface ContestantProps { 
+  contestants: string[];
+  setContestants: Dispatch<SetStateAction<string[]>>;
+}
+
