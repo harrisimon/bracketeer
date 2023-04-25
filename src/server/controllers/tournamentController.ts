@@ -25,9 +25,9 @@ tournamentController.getData = async (req, res, next) => {
 tournamentController.deleteTournament = async (req, res, next) => {
   const { tournamentID } = req.params;
   try {
-    console.log('id',tournamentID)
+    console.log("the tournament to delete",tournamentID)
     res.locals.matchUps = await MatchUp.deleteMany({ tournament: tournamentID });
-    res.locals.tournament = await Tournament.findByIdAndDelete(tournamentID);
+    res.locals.tournament = await Tournament.findByIdAndRemove(tournamentID);
     return next();
   } catch (err){
     return next({
