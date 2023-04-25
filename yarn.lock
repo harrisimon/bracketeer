@@ -911,11 +911,7 @@
   "resolved" "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   "version" "0.8.0"
 
-<<<<<<< HEAD
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.8.4":
-=======
 "@babel/runtime@^7.15.4", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
->>>>>>> draggableList
   "integrity" "sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw=="
   "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.21.0.tgz"
   "version" "7.21.0"
@@ -3894,11 +3890,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-<<<<<<< HEAD
-"prop-types@^15.5.8", "prop-types@^15.6.0":
-=======
 "prop-types@^15.7.2":
->>>>>>> draggableList
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -3937,19 +3929,10 @@
   dependencies:
     "side-channel" "^1.0.4"
 
-<<<<<<< HEAD
-"raf@^3.1.0":
-  "integrity" "sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA=="
-  "resolved" "https://registry.npmjs.org/raf/-/raf-3.4.1.tgz"
-  "version" "3.4.1"
-  dependencies:
-    "performance-now" "^2.1.0"
-=======
 "raf-schd@^4.0.2":
   "integrity" "sha512-tQkJl2GRWh83ui2DiPTJz9wEiMN20syf+5oKfB03yYP7ioZcJwsIK8FjrtLwH1m7C7e+Tt2yYBlrOpdT+dyeIQ=="
   "resolved" "https://registry.npmjs.org/raf-schd/-/raf-schd-4.0.3.tgz"
   "version" "4.0.3"
->>>>>>> draggableList
 
 "range-parser@~1.2.1":
   "integrity" "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg=="
@@ -3997,28 +3980,11 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
-<<<<<<< HEAD
-"react-draggable-list@^4.1.0":
-  "integrity" "sha512-WzfKhiMuziru+J3wFxeF8ibE39wgw0o1kWyFV6bLzVkC2DHi7GJY9cRM2VgK4xUlcvulcrUgClahwWHA0lQruA=="
-  "resolved" "https://registry.npmjs.org/react-draggable-list/-/react-draggable-list-4.1.0.tgz"
-  "version" "4.1.0"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@types/prop-types" "^15.7.3"
-    "immutability-helper" "^3.0.0"
-    "prop-types" "^15.6.0"
-    "react-motion" "^0.5.2"
-    "react-multi-ref" "^1.0.0"
-
-=======
->>>>>>> draggableList
 "react-is@^16.13.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-<<<<<<< HEAD
-=======
 "react-is@^16.7.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -4029,29 +3995,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
->>>>>>> draggableList
 "react-is@^18.0.0":
   "integrity" "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-<<<<<<< HEAD
-"react-motion@^0.5.2":
-  "integrity" "sha512-9q3YAvHoUiWlP3cK0v+w1N5Z23HXMj4IF4YuvjvWegWqNPfLXsOBE/V7UvQGpXxHFKRQQcNcVQE31g9SB/6qgQ=="
-  "resolved" "https://registry.npmjs.org/react-motion/-/react-motion-0.5.2.tgz"
-  "version" "0.5.2"
-  dependencies:
-    "performance-now" "^0.2.0"
-    "prop-types" "^15.5.8"
-    "raf" "^3.1.0"
-
-"react-multi-ref@^1.0.0":
-  "integrity" "sha512-zgQKmduv95vtXIkze6583pRW7Y+mNj7R0bYgxIRWOrsEfxBQaK+MZ6yjTiZ/qcFV4bYGM74nE9isb+YRBNIw2g=="
-  "resolved" "https://registry.npmjs.org/react-multi-ref/-/react-multi-ref-1.0.1.tgz"
-  "version" "1.0.1"
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-=======
 "react-list-drag-and-drop@^0.9.2":
   "integrity" "sha512-wGZ5l/OubVZ29zJxaS7qwokGa2gjbkvtR0KMQMwLEUa13vjtXjI+sIG8PfZPZaG+8FTFGJeO74s06ZOiXgH2Bw=="
   "resolved" "https://registry.npmjs.org/react-list-drag-and-drop/-/react-list-drag-and-drop-0.9.2.tgz"
@@ -4068,7 +4016,6 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.7.2"
     "react-is" "^17.0.2"
->>>>>>> draggableList
 
 "react-refresh@^0.14.0":
   "integrity" "sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ=="

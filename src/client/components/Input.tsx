@@ -3,7 +3,6 @@ import Slider from "./Slider"
 import InputsArray from "./InputsArray"
 import Contestants from "./Contestants"
 
-
 // a submit button could send the contestants array to a separate view for seed-ordering, or straight to the create tournament api if already ordered (or if user doesn't care about order)
 
 const Input = () => {
@@ -17,22 +16,28 @@ const Input = () => {
 		setContestants(new Array(2 ** sliderVal).fill(""))
 	}, [sliderVal])
 
-  return (
-    <div>
-      <div>hi</div>
-      <Slider sliderVal={sliderVal} setSliderVal={setSliderVal} />
-      {/* <InputsArray
+  const handleSubmit =(e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("le contestant",contestants)
+  }
+	return (
+		<div>
+			<div>hi</div>
+			<Slider sliderVal={sliderVal} setSliderVal={setSliderVal} />
+			{/* <InputsArray
         contestants={contestants}
         setContestants={setContestants}
         sliderVal={sliderVal}
       /> */}
-      <form>
-
-      <Contestants contestants={contestants} setContestants={setContestants} />
-      <button>Submit!</button>
-      </form>
-    </div>
-  );
-};
+			<form onSubmit={handleSubmit}>
+				<Contestants
+					contestants={contestants}
+					setContestants={setContestants}
+				/>
+				<button>Submit!</button>
+			</form>
+		</div>
+	)
+}
 
 export default Input

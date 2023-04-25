@@ -5,26 +5,27 @@ const Contestants = ({ contestants, setContestants }: ContestantProps) => {
 
 	const handleChange = (e: FormEvent<HTMLInputElement>, index: number) => {
 		let items: string[] = [...contestants]
-		let item: string = [...items[index]]
+		// @ts-ignore
+		let item: string = [items[index]]
 		item = e.currentTarget.value
 		items[index] = item
-		console.log("item", item, "items", items)
+		// console.log("item", item, "items", items)
 		setContestants(items)
 	}
 	const renderedInputs = contestants.map((contestant, index) => (
-		<div key={`textfield${index}`}>
-            {index + 1 + ' '}
+		<div key={`textfield${index}`} className="input-field">
+			<div className="number">
+			{index + 1}
+			</div>
 			<input
-                required={true}
+				required={true}
 				type="text"
 				value={contestant}
 				name={contestant}
 				onChange={(e) => handleChange(e, index)}
 				maxLength={64}
 			/>
-			
-        </div>
-		
+		</div>
 	))
 	return <div>{renderedInputs}</div>
 }
