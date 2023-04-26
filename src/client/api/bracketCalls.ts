@@ -17,6 +17,13 @@ export const getBracket = (id: string) => {
     })
 }
 
+export const deleteBracket = (id: string) => {
+    return axios({
+        method: "DELETE",
+        url: apiUrl! + "/tournament/" + id,
+    })
+}
+
 // export const getAllBrackets = (user) => {
 //     return axios({
 //         method:'GET',

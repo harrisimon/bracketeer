@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className='App'>
-      <h3>Hi</h3>
+      <h3>App</h3>
       <Input />
       {/*<BracketNode data={data}/>*/}
     </div>
