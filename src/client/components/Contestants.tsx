@@ -15,10 +15,10 @@ const Contestants = ({
     // // console.log("item", item, "items", items)
     // setContestants(items);
 
+    // we don't have to do it this way but I broke the version above and couldn't fix
     let items = [...contestants];
     items[index] = e.currentTarget.value;
     setContestants(items);
-    console.log(contestants);
   };
 
   const renderedInputs = contestants
@@ -36,6 +36,7 @@ const Contestants = ({
         />
       </div>
     ));
+
   return <div>{renderedInputs}</div>;
 };
 
