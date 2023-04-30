@@ -45,6 +45,15 @@ h1 {
 	justify-content: center;
 	align-items: center;
 }
+input{
+  font-size: x-small;
+  animation-name: input-focus;
+  transition: all .25s;
+}
+input:focus{
+  font-size: large;
+  background-color: white;
+}
 .number {
   display: flex;
   padding-right: .25em;

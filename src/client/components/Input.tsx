@@ -10,10 +10,6 @@ const Input = () => {
 
   const [contestants, setContestants] = useState(new Array(64).fill(''));
 
-  // useEffect(() => {
-  // 	setContestants(new Array(2 ** sliderVal).fill(""))
-  // }, [sliderVal])
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('le contestant', contestants.slice(0, 2 ** sliderVal));
