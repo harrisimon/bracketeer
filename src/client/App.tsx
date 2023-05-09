@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import BracketLeaf from './../client/components/BracketLeaf';
 import './App.css';
 import BracketNode from './../client/components/BracketNode';
 import Input from './components/Input';
+import CreateBracket from './components/CreateBracket';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,7 +22,8 @@ function App() {
   return (
     <div className='App'>
       <h3>App</h3>
-      <Input />
+      {/* <Input /> */}
+      <CreateBracket />
       {/*<BracketNode data={data}/>*/}
     </div>
   );
