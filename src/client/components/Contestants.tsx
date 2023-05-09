@@ -22,8 +22,8 @@ const Contestants = ({
         <input
           required={true}
           type='text'
-          value={contestant}
-          name={contestant}
+          value={contestant.name ?? ''}
+          name={contestant.name}
           onChange={(e) => handleChange(e, index)}
           maxLength={64}
         />

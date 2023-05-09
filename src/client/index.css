@@ -1,3 +1,4 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
@@ -56,12 +57,12 @@ input:focus{
 }
 .number {
   display: flex;
-  padding-right: .25em;
+  margin-right: 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
   text-align: right;
-  width: .25em; 
+  /* width: .25em;  */
 }
 button {
 	border-radius: 8px;
