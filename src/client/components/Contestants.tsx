@@ -8,14 +8,7 @@ const Contestants = ({
   // console.log(contestants)
 
   const handleChange = (e: FormEvent<HTMLInputElement>, index: number) => {
-    // let items = [...contestants];
-    // let item: string = [items[index]];
-    // item = e.currentTarget.value;
-    // items[index] = item;
-    // // console.log("item", item, "items", items)
-    // setContestants(items);
 
-    // we don't have to do it this way but I broke the version above and couldn't fix
     let items = [...contestants];
     items[index] = e.currentTarget.value;
     setContestants(items);
@@ -29,8 +22,8 @@ const Contestants = ({
         <input
           required={true}
           type='text'
-          value={contestant}
-          name={contestant}
+          value={contestant.name ?? ''}
+          name={contestant.name}
           onChange={(e) => handleChange(e, index)}
           maxLength={64}
         />
