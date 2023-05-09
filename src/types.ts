@@ -80,7 +80,7 @@ export interface InputProps {
   contestants: string[];
   setContestants: Dispatch<SetStateAction<string[]>>;
   sliderVal: number;
-  setSliderVal:Dispatch<SetStateAction<number>>
+  setSliderVal: Dispatch<SetStateAction<number>>;
 }
 export interface SeedOrderProps {
   sliderVal: number;
