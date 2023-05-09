@@ -10,7 +10,7 @@ const Contestants = ({
   const handleChange = (e: FormEvent<HTMLInputElement>, index: number) => {
 
     let items = [...contestants];
-    items[index] = e.currentTarget.value;
+    items[index].name = e.currentTarget.value;
     setContestants(items);
   };
 
