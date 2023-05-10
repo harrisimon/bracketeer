@@ -76,20 +76,17 @@ export interface SliderProps {
   setSliderVal: Dispatch<SetStateAction<number>>;
 }
 
-export interface InputProps {
-  contestants: string[];
-  setContestants: Dispatch<SetStateAction<string[]>>;
-  sliderVal: number;
-  setSliderVal: Dispatch<SetStateAction<number>>;
-}
-export interface SeedOrderProps {
-  sliderVal: number;
-  contestants: string[];
-  setContestants: Dispatch<SetStateAction<string[]>>;
+export interface ContestantNameAndIndex {
+  name: string;
+  index: number;
 }
 
 export interface ContestantProps {
-  contestants: string[];
-  setContestants: Dispatch<SetStateAction<string[]>>;
   sliderVal: number;
+  contestants: ContestantNameAndIndex[];
+  setContestants: Dispatch<SetStateAction<ContestantNameAndIndex[]>>;
+}
+
+export interface InputProps extends ContestantProps {
+  setSliderVal: Dispatch<SetStateAction<number>>;
 }
