@@ -14,11 +14,16 @@ const SeedOrder = ({
   // 		<div>{contestant}</div>
   // 	</Draggable>
   // ))
-  const obj = {};
-  for (const key of order) {
-    obj[key] = order.indexOf(key);
-  }
+  const obj: { [k: string]: {} } = {};
+  order.map((el, i) => {
+    obj[i] = el;
+  });
+
   console.log(obj);
+  // for (const key of order) {
+  //   obj[key] = order.indexOf(key);
+  // }
+  // console.log(obj);
 
   const onDragEnd = (res) => {
     console.log('the end');
