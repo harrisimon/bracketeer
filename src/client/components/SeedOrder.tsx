@@ -7,19 +7,20 @@ const SeedOrder = ({
   setContestants,
   sliderVal,
 }: SeedOrderProps) => {
-  console.log(contestants.slice(0, 2 ** sliderVal), 'in seed');
   const order = contestants.slice(0, 2 ** sliderVal);
   // const renderedContestants = order.map((contestant, index) => (
   // 	<Draggable draggableId={} index={index}>
   // 		<div>{contestant}</div>
   // 	</Draggable>
   // ))
-  const obj: { [k: string]: {} } = {};
-  order.map((el, i) => {
-    obj[i] = el;
-  });
+  // const obj: { [k: string]: {} } = {};
+  // order.map((el, i) => {
+  //   obj[i] = el;
+  // });
 
-  console.log(obj);
+  console.log(order, 'in seed');
+
+  // console.log(obj);
   // for (const key of order) {
   //   obj[key] = order.indexOf(key);
   // }
@@ -35,7 +36,7 @@ const SeedOrder = ({
           <div innerRef={provided.innerRef} {...provided.droppableProps}>
             {order.map((contestant, index) => (
               <Draggable
-                draggableId={contestant + index.toString()}
+                draggableId={contestant.name + index.toString()}
                 index={index}
               >
                 {(provided) => (
@@ -43,7 +44,7 @@ const SeedOrder = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    {contestant}
+                    {contestant.name}
                   </div>
                 )}
               </Draggable>

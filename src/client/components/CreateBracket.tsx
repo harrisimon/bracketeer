@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, Dispatch } from 'react';
 import { MultiStepForm } from './MultiStep';
 
 import Input from './Input';
@@ -9,27 +9,31 @@ const CreateBracket = () => {
     new Array(64).fill('').map((u, i) => ({ name: '', index: i }))
   );
   const [sliderVal, setSliderVal] = useState(2);
+  const [formStep, setFormStep] = useState(0);
   console.log(contestants);
 
   const { steps, currStepIndex, step, isFirstForm, isLastForm, back, next } =
-    MultiStepForm([
-      <Input
-        contestants={contestants}
-        setContestants={setContestants}
-        sliderVal={sliderVal}
-        setSliderVal={setSliderVal}
-      />,
-      <SeedOrder
-        contestants={contestants}
-        setContestants={setContestants}
-        sliderVal={sliderVal}
-      />,
-    ]);
+    MultiStepForm(
+      [
+        <Input
+          contestants={contestants}
+          setContestants={setContestants}
+          sliderVal={sliderVal}
+          setSliderVal={setSliderVal}
+        />,
+        <SeedOrder
+          contestants={contestants}
+          setContestants={setContestants}
+          sliderVal={sliderVal}
+        />,
+      ]
+      //setFormStep
+    );
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     console.log('le contestant', contestants.slice(0, 2 ** sliderVal));
-    if (!isLastForm) return next();
+    if (!isLastForm) next();
   }
 
   console.log('step ', step);
