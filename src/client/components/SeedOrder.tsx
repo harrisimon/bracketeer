@@ -31,26 +31,34 @@ const SeedOrder = ({
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='dropsy'>
+      <Droppable droppableId='seeding-order'>
         {(provided) => (
-          <div innerRef={provided.innerRef} {...provided.droppableProps}>
-            {order.map((contestant, index) => (
-              <Draggable
-                draggableId={contestant.name + index.toString()}
-                index={index}
-              >
-                {(provided) => (
-                  <div
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    {contestant.name}
-                  </div>
-                )}
-              </Draggable>
-            ))}
+          <ul
+            className='seeding-contestants'
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {order.map((contestant, index) => {
+              return (
+                <Draggable
+                  key={contestant.index}
+                  draggableId={contestant.index.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <p>{contestant.name}</p>
+                    </li>
+                  )}
+                </Draggable>
+              );
+            })}
             {provided.placeholder}
-          </div>
+          </ul>
         )}
       </Droppable>
     </DragDropContext>
