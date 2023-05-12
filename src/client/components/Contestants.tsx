@@ -5,8 +5,6 @@ const Contestants = ({
   setContestants,
   sliderVal,
 }: ContestantProps) => {
-  // console.log(contestants)
-
   const handleChange = (e: FormEvent<HTMLInputElement>, index: number) => {
     let items = [...contestants];
     items[index].name = e.currentTarget.value;

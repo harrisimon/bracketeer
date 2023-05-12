@@ -8,9 +8,6 @@ export function MultiStepForm(
 
   function next() {
     setCurrStepIndex((i) => {
-      console.log('i: ', i);
-      console.log('SL-1: ', steps.length - 1);
-
       if (i >= steps.length - 1) return i;
       return i + 1;
     });

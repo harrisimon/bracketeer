@@ -9,34 +9,36 @@ const CreateBracket = () => {
     new Array(64).fill('').map((u, i) => ({ name: '', index: i }))
   );
   const [sliderVal, setSliderVal] = useState(2);
-  const [formStep, setFormStep] = useState(0);
-  console.log(contestants);
 
   const { steps, currStepIndex, step, isFirstForm, isLastForm, back, next } =
-    MultiStepForm(
-      [
-        <Input
-          contestants={contestants}
-          setContestants={setContestants}
-          sliderVal={sliderVal}
-          setSliderVal={setSliderVal}
-        />,
-        <SeedOrder
-          contestants={contestants}
-          setContestants={setContestants}
-          sliderVal={sliderVal}
-        />,
-      ]
-      //setFormStep
-    );
+    MultiStepForm([
+      <Input
+        contestants={contestants}
+        setContestants={setContestants}
+        sliderVal={sliderVal}
+        setSliderVal={setSliderVal}
+      />,
+      <SeedOrder
+        contestants={contestants}
+        setContestants={setContestants}
+        sliderVal={sliderVal}
+      />,
+    ]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log('le contestant', contestants.slice(0, 2 ** sliderVal));
-    if (!isLastForm) next();
+    console.log('contestants: ', contestants.slice(0, 2 ** sliderVal));
+    if (!isLastForm) return next();
+    // when seeded order is submitted, produce an array of
+    // it's possible the whole contestant-as-object approach is more complicated than it needs to be and we could use an array throughout?
+
+    // post this to tournament creation route:
+    const seededOrder = contestants
+      .slice(0, 2 ** sliderVal)
+      .map((el) => el.name);
+    console.log(seededOrder);
   }
 
-  console.log('step ', step);
   return (
     <div className='form'>
       <div className='steps'>
