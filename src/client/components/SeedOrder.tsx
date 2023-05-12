@@ -1,5 +1,10 @@
-import { useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useState } from 'react';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
 import { ContestantProps as SeedOrderProps } from '../../types';
 
 const SeedOrder = ({
@@ -18,16 +23,19 @@ const SeedOrder = ({
   //   obj[i] = el;
   // });
 
-  console.log(order, 'in seed');
-
   // console.log(obj);
   // for (const key of order) {
   //   obj[key] = order.indexOf(key);
   // }
   // console.log(obj);
 
-  const onDragEnd = (res) => {
-    console.log('the end');
+  const onDragEnd = (res: DropResult) => {
+    if (!res.destination) return;
+    const newOrder = [...contestants];
+    const [movedItem] = newOrder.splice(res.source.index, 1);
+    newOrder.splice(res.destination.index, 0, movedItem);
+    console.log(contestants);
+    setContestants(newOrder);
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -41,7 +49,7 @@ const SeedOrder = ({
             {order.map((contestant, index) => {
               return (
                 <Draggable
-                  key={contestant.index}
+                  key={contestant.name + contestant.index.toString()}
                   draggableId={contestant.index.toString()}
                   index={index}
                 >
