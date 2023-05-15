@@ -38,7 +38,9 @@ const CreateBracket = () => {
       .slice(0, 2 ** sliderVal)
       .map((el) => el.name);
     console.log(seededOrder);
-    postBracket(seededOrder)
+    // Object does not require roundInterval or displayVotes but are included in post for now. 
+    postBracket({"contestants":seededOrder, "roundInterval": 3000000,
+    "displayVotesDuringRound": false})
   }
 
   return (
