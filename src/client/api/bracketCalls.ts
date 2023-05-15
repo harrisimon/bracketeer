@@ -1,28 +1,28 @@
-import apiUrl from "./apiConfig"
-import axios from "axios"
-import { TournamentType } from "../../types"
+import apiUrl from './apiConfig';
+import axios from 'axios';
+import { TournamentType } from '../../types';
 
 export const postBracket = (data: TournamentType) => {
-	return axios({
-		method: "POST",
-		data,
-		url: apiUrl! + "/tournament",
-	})
-}
+  return axios({
+    method: 'POST',
+    data,
+    url: apiUrl! + '/tournament',
+  });
+};
 
 export const getBracket = (id: string) => {
-    return axios({
-        method: "GET",
-        url: apiUrl! + "/tournament/" + id,
-    })
-}
+  return axios({
+    method: 'GET',
+    url: apiUrl! + '/tournament/' + id,
+  });
+};
 
 export const deleteBracket = (id: string) => {
-    return axios({
-        method: "DELETE",
-        url: apiUrl! + "/tournament/" + id,
-    })
-}
+  return axios({
+    method: 'DELETE',
+    url: apiUrl! + '/tournament/' + id,
+  });
+};
 
 // export const getAllBrackets = (user) => {
 //     return axios({
