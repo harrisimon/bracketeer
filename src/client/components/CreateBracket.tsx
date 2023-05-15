@@ -1,5 +1,6 @@
 import { useState, FormEvent, Dispatch } from 'react';
 import { MultiStepForm } from './MultiStep';
+import  { postBracket}  from '../api/bracketCalls'
 
 import Input from './Input';
 import SeedOrder from './SeedOrder';
@@ -37,6 +38,7 @@ const CreateBracket = () => {
       .slice(0, 2 ** sliderVal)
       .map((el) => el.name);
     console.log(seededOrder);
+    postBracket(seededOrder)
   }
 
   return (
