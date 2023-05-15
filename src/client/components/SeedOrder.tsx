@@ -1,56 +1,57 @@
-import { useEffect } from "react"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-import { SeedOrderProps } from "../../types"
+import { useState } from 'react';
+import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
+import { StrictModeDroppable as Droppable } from '../../helpers/StrictModeDroppable';
+import { ContestantProps as SeedOrderProps } from '../../types';
 
 const SeedOrder = ({
-	contestants,
-	setContestants,
-	sliderVal,
+  contestants,
+  setContestants,
+  sliderVal,
 }: SeedOrderProps) => {
-	console.log(contestants.slice(0, 2 ** sliderVal), "in seed")
-	const order = contestants.slice(0, 2 ** sliderVal)
-	// const renderedContestants = order.map((contestant, index) => (
-	// 	<Draggable draggableId={} index={index}>
-	// 		<div>{contestant}</div>
-	// 	</Draggable>
-	// ))
-    const obj = {}
-    for(const key of order){
-        obj[key]= order.indexOf(key)
-    }
-    console.log(obj)
+  const order = contestants.slice(0, 2 ** sliderVal);
 
-	const onDragEnd = (res) => {
-        console.log('the end')
-    }
-	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId="dropsy">
-				{(provided) => (
-					<div
-						innerRef={provided.innerRef}
-						{...provided.droppableProps}
-					>
-						{order.map((contestant, index) => (
-							<Draggable
-								draggableId={contestant + index.toString()}
-								index={index}
-							>
-                                {(provided)=> (
+  const onDragEnd = (res: DropResult) => {
+    if (!res.destination) return;
+    const newOrder = [...contestants];
+    const [movedItem] = newOrder.splice(res.source.index, 1);
+    newOrder.splice(res.destination.index, 0, movedItem);
+    setContestants(newOrder);
+  };
 
-								<div
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                >{contestant}</div>
-                                )}
-							</Draggable>
-						))}
-						{provided.placeholder}
-					</div>
-				)}
-			</Droppable>
-		</DragDropContext>
-	)
-}
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId='seeding-order'>
+        {(provided) => (
+          <ul
+            className='seeding-contestants'
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {order.map((contestant, index) => {
+              return (
+                <Draggable
+                  key={contestant.name + contestant.index.toString()}
+                  draggableId={contestant.name + contestant.index.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <p>{contestant.name}</p>
+                    </li>
+                  )}
+                </Draggable>
+              );
+            })}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+};
 
-export default SeedOrder
+export default SeedOrder;
