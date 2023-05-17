@@ -17,7 +17,7 @@ const database = {
 
 // used for cors
 const serverDevPort = 8000
-const clientDevPort = 3000
+const clientDevPort = 5173
 
 // pulling in .env
 const localDb = process.env.TESTENV ? database.test : database.development

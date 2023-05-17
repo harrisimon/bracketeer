@@ -1,8 +1,8 @@
 import apiUrl from "./apiConfig"
 import axios from "axios"
-import { TournamentType } from "../../types"
+import { ContestantsPostType } from "../../types"
 
-export const postBracket = (data: TournamentType) => {
+export const postBracket = (data: ContestantsPostType) => {
 	return axios({
 		method: "POST",
 		data,

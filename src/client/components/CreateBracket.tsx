@@ -1,61 +1,71 @@
-import { useState, FormEvent, Dispatch } from 'react';
-import { MultiStepForm } from './MultiStep';
-
-import Input from './Input';
-import SeedOrder from './SeedOrder';
+import { useState, FormEvent, Dispatch } from "react"
+import { MultiStepForm } from "./MultiStep"
+import { postBracket } from "../api/bracketCalls"
+import { useNavigate } from 'react-router-dom'
+import Input from "./Input"
+import SeedOrder from "./SeedOrder"
 
 const CreateBracket = () => {
-  const [contestants, setContestants] = useState(
-    new Array(64).fill('').map((u, i) => ({ name: '', index: i }))
-  );
-  const [sliderVal, setSliderVal] = useState(2);
+	const [contestants, setContestants] = useState(
+		new Array(64).fill("").map((u, i) => ({ name: "", index: i }))
+	)
+	const [sliderVal, setSliderVal] = useState(2)
+  const navigate = useNavigate()
 
-  const { steps, currStepIndex, step, isFirstForm, isLastForm, back, next } =
-    MultiStepForm([
-      <Input
-        contestants={contestants}
-        setContestants={setContestants}
-        sliderVal={sliderVal}
-        setSliderVal={setSliderVal}
-      />,
-      <SeedOrder
-        contestants={contestants}
-        setContestants={setContestants}
-        sliderVal={sliderVal}
-      />,
-    ]);
+	const { steps, currStepIndex, step, isFirstForm, isLastForm, back, next } =
+		MultiStepForm([
+			<Input
+				contestants={contestants}
+				setContestants={setContestants}
+				sliderVal={sliderVal}
+				setSliderVal={setSliderVal}
+			/>,
+			<SeedOrder
+				contestants={contestants}
+				setContestants={setContestants}
+				sliderVal={sliderVal}
+			/>,
+		])
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    console.log('contestants: ', contestants.slice(0, 2 ** sliderVal));
-    if (!isLastForm) return next();
-    // when seeded order is submitted, produce an array of
-    // it's possible the whole contestant-as-object approach is more complicated than it needs to be and we could use an array throughout?
+	function handleSubmit(e: FormEvent) {
+		e.preventDefault()
+		console.log("contestants: ", contestants.slice(0, 2 ** sliderVal))
+		if (!isLastForm) return next()
+		// when seeded order is submitted, produce an array of
+		// it's possible the whole contestant-as-object approach is more complicated than it needs to be and we could use an array throughout?
 
-    // post this to tournament creation route:
-    const seededOrder = contestants
-      .slice(0, 2 ** sliderVal)
-      .map((el) => el.name);
-    console.log(seededOrder);
-  }
+		// post this to tournament creation route:
+		const seededOrder = contestants
+			.slice(0, 2 ** sliderVal)
+			.map((el) => el.name)
+		console.log(seededOrder)
+		// Object does not require roundInterval or displayVotes but are included in post for now.
+		postBracket({
+			contestants: seededOrder,
+			roundInterval: 3000000,
+			displayVotesDuringRound: false,
+		}).then(()=>navigate('/'))
+	}
 
-  return (
-    <div className='form'>
-      <div className='steps'>
-        <form onSubmit={handleSubmit}>
-          {step}
-          <div className='nav-buttons'>
-            {!isFirstForm && (
-              <button type='button' onClick={back}>
-                Go Back
-              </button>
-            )}
-            <button type='submit'>{isLastForm ? 'Finish' : 'Next'}</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
+	return (
+		<div className="form">
+			<div className="steps">
+				<form onSubmit={handleSubmit}>
+					{step}
+					<div className="nav-buttons">
+						{!isFirstForm && (
+							<button type="button" onClick={back}>
+								Go Back
+							</button>
+						)}
+						<button type="submit">
+							{isLastForm ? "Finish" : "Next"}
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	)
+}
 
-export default CreateBracket;
+export default CreateBracket
