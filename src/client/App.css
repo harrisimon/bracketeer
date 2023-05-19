@@ -29,6 +29,12 @@
   display: grid;
 }
 
-.bracket-test-div {
+.matchup-container {
   border: 1px solid blue;
+  height: 50px;
+  width: 100 px;
+}
+
+.contestant-container {
+  border: 1px solid red;
 }

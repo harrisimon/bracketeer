@@ -47,11 +47,28 @@ export interface MatchUpType {
   tournament: Types.ObjectId; //?
   contestant1?: ContestantType;
   contestant2?: ContestantType;
-  contestant1votes: number;
-  contestant2votes: number;
+  contestant1votes?: number;
+  contestant2votes?: number;
   next?: number;
   round: number;
   matchNumber: number;
+}
+
+export interface matchUpRenderObjectTEST {
+  [k: string]: matchUpRenderPropsTEST[];
+}
+
+export interface matchUpRenderPropsTEST {
+  _id: string;
+  tournament: string;
+  contestant1votes: number;
+  contestant2votes: number;
+  round: number;
+  matchNumber: number;
+  __v: number;
+  next: number | undefined;
+  contestant1: string | undefined;
+  contestant2: string | undefined;
 }
 
 export interface ContestantType {
