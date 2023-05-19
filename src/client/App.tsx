@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import BracketLeaf from './../client/components/BracketLeaf';
+import BracketLeaf from './components/drafts/BracketLeaf';
 import './App.css';
-import BracketNode from './../client/components/BracketNode';
+import BracketNode from './components/drafts/BracketNode';
 import Input from './components/Input';
 import CreateBracket from './components/CreateBracket';
 import Bracket from './components/Bracket';
