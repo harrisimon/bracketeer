@@ -1,11 +1,9 @@
 import { Fragment, useState } from 'react';
 import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import BracketLeaf from './../client/components/BracketLeaf';
 import './App.css';
-import BracketNode from './../client/components/BracketNode';
-import Input from './components/Input';
 import CreateBracket from './components/CreateBracket';
 import Home from './components/pages/home';
+import Bracket from './components/Bracket';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,6 +27,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/create' element={<CreateBracket />} />
+          <Route path='/sample-render' element={<Bracket />} />
         </Routes>
       </div>
     </Fragment>
