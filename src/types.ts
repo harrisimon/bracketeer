@@ -54,22 +54,6 @@ export interface MatchUpType {
   matchNumber: number;
 }
 
-export interface matchUpRenderObjectTEST {
-  [k: string]: matchUpRenderPropsTEST[];
-}
-
-export interface matchUpRenderPropsTEST {
-  _id: string;
-  tournament: string;
-  contestant1votes: number;
-  contestant2votes: number;
-  round: number;
-  matchNumber: number;
-  __v: number;
-  next: number | undefined;
-  contestant1: string | undefined;
-  contestant2: string | undefined;
-}
 
 export interface ContestantType {
   name: String;

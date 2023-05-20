@@ -1,4 +1,5 @@
 #root {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -27,14 +28,24 @@
 
 .bracket-render-grid {
   display: grid;
+  column-gap: 10%;
+}
+
+.round-column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .matchup-container {
   border: 1px solid blue;
-  height: 50px;
-  width: 100 px;
+  width: 100%;
+  margin: 5px;
 }
 
 .contestant-container {
   border: 1px solid red;
+  height: 25px;
+  margin: 5px;
 }

@@ -26,28 +26,29 @@ const Bracket = () => {
       const matchUpsFromRound = testTournamentData.matchUps.filter(
         (el) => el.round === i
       );
-      matchUpData[key].push(matchUpsFromRound);
+      matchUpsFromRound.forEach((el) => matchUpData[key].push(el));
     }
-    console.log('matchUpData in local object: ', matchUpData);
     setMatchUps(matchUpData);
   }, []);
 
-  const roundsArray = [];
-  for (const round in matchUps) {
-    roundsArray.push(<RoundColumn roundData={matchUps[round]} />);
-  }
+  // const roundsArray = [];
+  // for (const round in matchUps) {
+  //   roundsArray.push(<RoundColumn roundData={matchUps[round]} />);
+  // }
 
+  console.log('mu: ', matchUps);
+  console.log('numrounds: ', numberOfRounds);
   // unidirectional bracket for now
   return (
     <div
       className='bracket-render-grid'
       style={{
-        gridTemplateColumns: `repeat (${numberOfRounds}, 1fr)`,
+        gridTemplateColumns: `repeat(${numberOfRounds}, 1fr)`,
       }}
     >
-      {roundsArray.map((round) => (
-        <div>{round}</div>
-      ))}
+      {Object.keys(matchUps).map((round) => {
+        return <RoundColumn roundData={matchUps[round]} />;
+      })}
     </div>
   );
 };
