@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import BracketLeaf from './components/drafts/BracketLeaf';
+import { Fragment, useState } from 'react';
+import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import BracketLeaf from './../client/components/BracketLeaf';
 import './App.css';
-import BracketNode from './components/drafts/BracketNode';
+import BracketNode from './../client/components/BracketNode';
 import Input from './components/Input';
 import CreateBracket from './components/CreateBracket';
-import Bracket from './components/Bracket';
+import Home from './components/pages/home';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,12 +22,16 @@ function App() {
   };
 
   return (
-    <div className='App'>
-      <h3>App</h3>
-      {/* <Input /> */}
-      <Bracket />
-      {/*<BracketNode data={data}/>*/}
-    </div>
+    <Fragment>
+      <div className='App'>
+        <h3>Bracketeer</h3>
+        {/* Insert nav here later */}
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/create' element={<CreateBracket />} />
+        </Routes>
+      </div>
+    </Fragment>
   );
 }
 
