@@ -11,18 +11,18 @@ export const postBracket = (data: ContestantsPostType) => {
 }
 
 export const getBracket = (id: string) => {
-    return axios({
-        method: "GET",
-        url: apiUrl! + "/tournament/" + id,
-    })
-}
+  return axios({
+    method: 'GET',
+    url: apiUrl! + '/tournament/' + id,
+  });
+};
 
 export const deleteBracket = (id: string) => {
-    return axios({
-        method: "DELETE",
-        url: apiUrl! + "/tournament/" + id,
-    })
-}
+  return axios({
+    method: 'DELETE',
+    url: apiUrl! + '/tournament/' + id,
+  });
+};
 
 // export const getAllBrackets = (user) => {
 //     return axios({

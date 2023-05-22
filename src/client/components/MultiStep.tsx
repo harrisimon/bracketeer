@@ -19,6 +19,7 @@ export function MultiStepForm(
       return i - 1;
     });
   }
+  
   function goTo(index: number) {
     setCurrStepIndex(index);
   }

@@ -48,12 +48,13 @@ export interface MatchUpType {
   tournament: Types.ObjectId; //?
   contestant1?: ContestantType;
   contestant2?: ContestantType;
-  contestant1votes: number;
-  contestant2votes: number;
+  contestant1votes?: number;
+  contestant2votes?: number;
   next?: number;
   round: number;
   matchNumber: number;
 }
+
 
 export interface ContestantType {
   name: String;

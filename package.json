@@ -30,7 +30,8 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-bulma-components": "^4.1.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "react-xarrows": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
