@@ -11,9 +11,10 @@ const RoundColumn = (props: RoundColumnProps) => {
   // eventually replace contestant containers with their own JSX component
   return (
     <div className='round-column'>
-      {roundData.map((el) => {
+      {roundData.map((el, index) => {
         return (
-          <div className='matchup-container' id={`matchup${el.matchNumber}`}>
+          
+          <div className='matchup-container' id={`matchup${el.matchNumber}`} key={index}>
             <div className='contestant-container'>{el.matchNumber}</div>
             <div className='contestant-container'>{el.matchNumber}</div>
             {el.next && (

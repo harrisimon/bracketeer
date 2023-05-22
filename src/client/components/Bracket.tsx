@@ -41,13 +41,14 @@ const Bracket = () => {
   // unidirectional bracket for now
   return (
     <div
+
       className='bracket-render-grid'
       style={{
         gridTemplateColumns: `repeat(${numberOfRounds}, 1fr)`,
       }}
     >
-      {Object.keys(matchUps).map((round) => {
-        return <RoundColumn roundData={matchUps[round]} />;
+      {Object.keys(matchUps).map((round, index) => {
+        return <RoundColumn key={index} roundData={matchUps[round]} />;
       })}
     </div>
   );
