@@ -13,9 +13,21 @@ const RoundColumn = (props: RoundColumnProps) => {
     <div className='round-column'>
       {roundData.map((el) => {
         return (
-          <div className='matchup-container' id={`matchup${el.matchNumber}`}>
-            <div className='contestant-container'>{el.matchNumber}</div>
-            <div className='contestant-container'>{el.matchNumber}</div>
+          <div
+            className='matchup-container'
+            id={`matchup${el.matchNumber}`}
+            style={
+              el.contestant1
+                ? { background: 'lavender' }
+                : { background: 'white' }
+            }
+          >
+            <div className='contestant-container'>
+              {el.matchNumber} next={`matchup${el.next}`}
+            </div>
+            <div className='contestant-container'>
+              {el.matchNumber} next={`matchup${el.next}`}
+            </div>
             {el.next && (
               <Xarrow
                 start={`matchup${el.matchNumber}`}

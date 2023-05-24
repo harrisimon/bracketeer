@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import testTournamentData from '../../assets/test_data/test-tournament';
 import RoundColumn from './RoundColumn';
 //typing will have to change once I replace dummy data with real API calls
@@ -13,23 +13,53 @@ export interface matchUpRenderObjectTEST {
 
 const Bracket = () => {
   const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
+  const [unidirectional, setUnidirectional] = useState<boolean>(false);
   const [numberOfRounds, setNumberOfRounds] = useState(
-    Math.log2(testTournamentData.matchUps.length + 1)
+    unidirectional
+      ? Math.log2(testTournamentData.matchUps.length + 1)
+      : Math.log2(testTournamentData.matchUps.length + 1) * 2 - 1
   );
+
   // get number of rounds
   // use it to set number of rows/cols
   useEffect(() => {
     const matchUpData: matchUpRenderObjectTEST = {};
-    for (let i = 1; i <= numberOfRounds; i++) {
-      const key = 'round' + i.toString();
-      matchUpData[key] = [];
-      const matchUpsFromRound = testTournamentData.matchUps.filter(
-        (el) => el.round === i
+    if (unidirectional) {
+      setNumberOfRounds(Math.log2(testTournamentData.matchUps.length + 1));
+      for (let i = 1; i <= numberOfRounds; i++) {
+        const key = 'round' + i.toString();
+        matchUpData[key] = [];
+        const matchUpsFromRound = testTournamentData.matchUps.filter(
+          (el) => el.round === i
+        );
+        matchUpsFromRound.forEach((el) => matchUpData[key].push(el));
+      }
+    } else {
+      setNumberOfRounds(
+        Math.log2(testTournamentData.matchUps.length + 1) * 2 - 1
       );
-      matchUpsFromRound.forEach((el) => matchUpData[key].push(el));
+      for (let i = 1; i <= numberOfRounds / 2 + 1; i++) {
+        const matchUpsFromRound = testTournamentData.matchUps.filter(
+          (el) => el.round === i
+        );
+        const middleIndex = matchUpsFromRound.length / 2;
+        const left = matchUpsFromRound.slice(0, middleIndex);
+        const right = matchUpsFromRound.slice(middleIndex);
+        console.log(left, right);
+        if (left.length) {
+          let key = `lRound${i.toString()}`;
+          matchUpData[key] = [];
+          left.forEach((el) => matchUpData[key].push(el));
+        }
+        if (right.length) {
+          let key = `rRound${i.toString()}`;
+          matchUpData[key] = [];
+          if (right.length) right.forEach((el) => matchUpData[key].push(el));
+        }
+      }
     }
     setMatchUps(matchUpData);
-  }, []);
+  }, [unidirectional]);
 
   // const roundsArray = [];
   // for (const round in matchUps) {
@@ -42,13 +72,25 @@ const Bracket = () => {
   return (
     <div
       className='bracket-render-grid'
-      style={{
-        gridTemplateColumns: `repeat(${numberOfRounds}, 1fr)`,
-      }}
+      style={
+        unidirectional
+          ? {
+              gridTemplateColumns: `repeat(${numberOfRounds}, 1fr)`,
+              columnGap: '10%',
+            }
+          : {
+              gridTemplateColumns: `repeat(${numberOfRounds}, 1fr)`,
+              columnGap: '5%',
+            }
+      }
     >
-      {Object.keys(matchUps).map((round) => {
-        return <RoundColumn roundData={matchUps[round]} />;
-      })}
+      {Object.keys(matchUps)
+        .sort((a, b) => {
+          return a[0] === 'l' ? 1 : -1;
+        })
+        .map((round) => {
+          return <RoundColumn roundData={matchUps[round]} />;
+        })}
     </div>
   );
 };
