@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import testTournamentData from '../../assets/test_data/test-tournament';
 import RoundColumn from './RoundColumn';
-import { useXarrow } from 'react-xarrows';
 
 //typing will have to change once I replace dummy data with real API calls
 // eventually pass tournament ID into Bracket
@@ -21,8 +20,6 @@ const Bracket = () => {
       ? Math.log2(testTournamentData.matchUps.length + 1)
       : Math.log2(testTournamentData.matchUps.length + 1) * 2 - 1
   );
-
-  const updateXarrow = useXarrow();
 
   // get number of rounds
   // use it to set number of rows/cols
@@ -71,7 +68,6 @@ const Bracket = () => {
     }
     console.log('mu: ', matchUpData);
     setMatchUps(matchUpData);
-    updateXarrow();
   }, [unidirectional]);
 
   return (
