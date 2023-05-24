@@ -7,6 +7,7 @@ export interface RoundColumnProps {
 
 const RoundColumn = (props: RoundColumnProps) => {
   const { roundData } = props;
+  roundData.sort((a, b) => a.matchNumber - b.matchNumber);
   console.log('rounddata: ', roundData);
   // eventually replace contestant containers with their own JSX component
   return (

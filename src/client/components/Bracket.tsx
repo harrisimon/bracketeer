@@ -13,7 +13,7 @@ export interface matchUpRenderObjectTEST {
 
 const Bracket = () => {
   const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
-  const [unidirectional, setUnidirectional] = useState<boolean>(false);
+  const [unidirectional, setUnidirectional] = useState<boolean>(true);
   const [numberOfRounds, setNumberOfRounds] = useState(
     unidirectional
       ? Math.log2(testTournamentData.matchUps.length + 1)
@@ -69,6 +69,7 @@ const Bracket = () => {
   console.log('mu: ', matchUps);
   console.log('numrounds: ', numberOfRounds);
   // unidirectional bracket for now
+
   return (
     <div
       className='bracket-render-grid'
@@ -85,9 +86,7 @@ const Bracket = () => {
       }
     >
       {Object.keys(matchUps)
-        .sort((a, b) => {
-          return a[0] === 'l' ? 1 : -1;
-        })
+        .sort((a, b) => (a[0] === 'l' ? 1 : -1))
         .map((round) => {
           return <RoundColumn roundData={matchUps[round]} />;
         })}
