@@ -27,7 +27,7 @@ const Bracket = () => {
     if (unidirectional) {
       setNumberOfRounds(Math.log2(testTournamentData.matchUps.length + 1));
       for (let i = 1; i <= numberOfRounds; i++) {
-        const key = 'lRound' + i.toString();
+        const key = 'round' + i.toString();
         matchUpData[key] = [];
         const matchUpsFromRound = testTournamentData.matchUps.filter(
           (el) => el.round === i
@@ -47,12 +47,12 @@ const Bracket = () => {
         const right = matchUpsFromRound.slice(middleIndex);
         console.log(left, right);
         if (left.length) {
-          let key = 'lRound' + i.toString();
+          let key = `lRound${i.toString()}`;
           matchUpData[key] = [];
           left.forEach((el) => matchUpData[key].push(el));
         }
         if (right.length) {
-          let key = 'rRound' + i.toString();
+          let key = `rRound${i.toString()}`;
           matchUpData[key] = [];
           if (right.length) right.forEach((el) => matchUpData[key].push(el));
         }
@@ -85,8 +85,9 @@ const Bracket = () => {
       }
     >
       {Object.keys(matchUps)
-        .sort((a, b) => (a[0] === 'l' ? 1 : -1))
-        // .sort((a, b) => Number(a.slice(6)) - Number(b.slice(6)))
+        .sort((a, b) => {
+          return a[0] === 'l' ? 1 : -1;
+        })
         .map((round) => {
           return <RoundColumn roundData={matchUps[round]} />;
         })}
