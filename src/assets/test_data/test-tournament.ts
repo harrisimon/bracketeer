@@ -39,8 +39,6 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682264',
       tournament: '646278bfb3ad34c731682253',
-      contestant1: '646278bfb3ad34c73168225c',
-      contestant2: '646278bfb3ad34c73168225e',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 14,
@@ -51,8 +49,6 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682265',
       tournament: '646278bfb3ad34c731682253',
-      contestant1: '646278bfb3ad34c731682260',
-      contestant2: '646278bfb3ad34c731682262',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 14,
@@ -63,8 +59,6 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c73168226f',
       tournament: '646278bfb3ad34c731682253',
-      contestant1: '646278bfb3ad34c731682267',
-      contestant2: '646278bfb3ad34c731682269',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 13,
@@ -75,8 +69,6 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682270',
       tournament: '646278bfb3ad34c731682253',
-      contestant1: '646278bfb3ad34c73168226b',
-      contestant2: '646278bfb3ad34c73168226d',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 13,
@@ -87,6 +79,8 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682255',
       tournament: '646278bfb3ad34c731682253',
+      contestant1: '646278bfb3ad34c73168226b',
+      contestant2: '646278bfb3ad34c73168226d',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 12,
@@ -97,6 +91,8 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682258',
       tournament: '646278bfb3ad34c731682253',
+      contestant1: '646278bfb3ad34c73168225c',
+      contestant2: '646278bfb3ad34c73168225e',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 12,
@@ -107,6 +103,8 @@ const testTournamentData = {
     {
       _id: '646278bfb3ad34c731682259',
       tournament: '646278bfb3ad34c731682253',
+      contestant1: '646278bfb3ad34c731682267',
+      contestant2: '646278bfb3ad34c731682269',
       contestant1votes: 0,
       contestant2votes: 0,
       next: 11,
