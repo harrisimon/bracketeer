@@ -28,7 +28,6 @@
 
 .bracket-render-grid {
   display: grid;
-  column-gap: 10%;
 }
 
 .round-column {
