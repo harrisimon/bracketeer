@@ -66,31 +66,15 @@ const Bracket = () => {
   }, [unidirectional]);
 
   return (
-    <div>
-      <div
-        className='bracket-render-grid'
-        style={
-          unidirectional
-            ? {
-                gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-                columnGap: '10%',
-              }
-            : {
-                gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-                columnGap: '5%',
-              }
-        }
-      >
-        {Object.keys(matchUps)
-          // if view isn't unidirectional, sort matchups to left and right according to their position
-          .sort((a, b) => (a[0] === 'l' ? 1 : -1))
-          .map((round) => {
-            return <RoundColumn roundData={matchUps[round]} />;
-          })}
-      </div>
-      <button onClick={() => setUnidirectional(!unidirectional)}>
-        Toggle view
-      </button>
+    <div
+      className='bracket-render-grid'
+      style={{
+        gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
+      }}
+    >
+      {Object.keys(matchUps).map((round, index) => {
+        return <RoundColumn key={index} roundData={matchUps[round]} />;
+      })}
     </div>
   );
 };

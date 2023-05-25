@@ -1,7 +1,7 @@
 import { useState, FormEvent, Dispatch } from "react"
 import { MultiStepForm } from "./MultiStep"
 import { postBracket } from "../api/bracketCalls"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom"
 import Input from "./Input"
 import SeedOrder from "./SeedOrder"
 
@@ -10,7 +10,7 @@ const CreateBracket = () => {
 		new Array(64).fill("").map((u, i) => ({ name: "", index: i }))
 	)
 	const [sliderVal, setSliderVal] = useState(2)
-  const navigate = useNavigate()
+	const navigate = useNavigate()
 
 	const { steps, currStepIndex, step, isFirstForm, isLastForm, back, next } =
 		MultiStepForm([
@@ -44,7 +44,7 @@ const CreateBracket = () => {
 			contestants: seededOrder,
 			roundInterval: 3000000,
 			displayVotesDuringRound: false,
-		}).then(()=>navigate('/'))
+		}).then(() => navigate("/"))
 	}
 
 	return (
