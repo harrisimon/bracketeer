@@ -1,30 +1,42 @@
-import { useState, useEffect } from 'react';
-import testTournamentData from '../../assets/test_data/test-tournament';
-import RoundColumn from './RoundColumn';
+import { useState, useEffect, useReducer } from 'react';
+import testTournamentData from '../../../assets/test_data/test-tournament';
+import RoundColumn from '../RoundColumn';
+import toggleView from './reducer';
 
 //typing will have to change once dummy data replaced with real API calls
 // eventually pass tournament ID into Bracket
 // use it to useQuery and set state
+
 export interface matchUpRenderObjectTEST {
   [k: string]: (typeof testTournamentData.matchUps)[];
 }
 
-const Bracket = () => {
-  const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
-  const [unidirectional, setUnidirectional] = useState<boolean>(true);
+const initialDisplayState = {
+  unidirectional: true,
+  numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
+  displaySettings: {
+    gridTemplateColumns: `repeat(${Math.log2(
+      testTournamentData.matchUps.length + 1
+    )}, 1fr)`,
+    columnGap: '10%',
+  },
+};
 
-  // the number of columns is based on how many matchups there are, and whether the view is unidirectional or not
-  const [numberOfColumns, setNumberOfColumns] = useState(
-    unidirectional
-      ? Math.log2(testTournamentData.matchUps.length + 1)
-      : Math.log2(testTournamentData.matchUps.length + 1) * 2 - 1
+const Bracket = () => {
+  // combine state updates with useReducer?
+
+  const [displayState, displayDispatch] = useReducer(
+    toggleView,
+    initialDisplayState
   );
+
+  const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useEffect(() => {
     const matchUpData: matchUpRenderObjectTEST = {};
+    const { unidirectional, numberOfColumns } = displayState;
     if (unidirectional) {
-      setNumberOfColumns(Math.log2(testTournamentData.matchUps.length + 1));
       for (let i = 1; i <= numberOfColumns; i++) {
         const key = 'round' + i.toString();
         matchUpData[key] = [];
@@ -35,11 +47,10 @@ const Bracket = () => {
       }
     } else {
       // store new number of columns in block-scoped variable for use in for loop. We can't rely on state being updated immediately
-      const newNumberOfColumns =
-        Math.log2(testTournamentData.matchUps.length + 1) * 2 - 1;
-      setNumberOfColumns(newNumberOfColumns);
+      for (let i = 1; i < numberOfColumns; i++) {
+        console.log(displayState);
+        console.log(matchUps);
 
-      for (let i = 1; i < newNumberOfColumns; i++) {
         const matchUpsFromRound = testTournamentData.matchUps.filter(
           (el) => el.round === i
         );
@@ -63,25 +74,11 @@ const Bracket = () => {
       }
     }
     setMatchUps(matchUpData);
-  }, [unidirectional]);
+  }, [displayState]);
 
   return (
     <div>
-      <div
-        className='bracket-render-grid'
-        style={
-          // once we fine-tune CSS for display, it probably makes sense to have a style prop object
-          unidirectional
-            ? {
-                gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-                columnGap: '10%',
-              }
-            : {
-                gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-                columnGap: '5%',
-              }
-        }
-      >
+      <div className='bracket-render-grid' style={displayState.displaySettings}>
         {Object.keys(matchUps)
           // if bracket has left and right wings, sort columns of matchups accordingly
           .sort((a) => (a[0] === 'l' ? 1 : -1))
@@ -89,9 +86,7 @@ const Bracket = () => {
             return <RoundColumn key={index} roundData={matchUps[round]} />;
           })}
       </div>
-      <button onClick={() => setUnidirectional(!unidirectional)}>
-        Toggle View
-      </button>
+      <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
     </div>
   );
 };
