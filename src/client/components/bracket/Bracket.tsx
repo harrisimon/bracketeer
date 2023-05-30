@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
 import toggleView from './reducer';
@@ -33,7 +33,7 @@ const Bracket = () => {
   const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
-  useEffect(() => {
+  useLayoutEffect(() => {
     const matchUpData: matchUpRenderObjectTEST = {};
     const { unidirectional, numberOfColumns } = displayState;
     if (unidirectional) {
