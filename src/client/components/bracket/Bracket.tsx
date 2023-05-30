@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
+import { useState, useLayoutEffect, useReducer } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
 import toggleView from './reducer';
