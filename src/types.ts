@@ -108,3 +108,10 @@ export interface bracketDisplaySettings {
   gridTemplateColumns: string;
   columnGap: string;
 }
+
+export interface UserType {
+  email: String
+  hashedPassword: String
+  token: String
+}
+
