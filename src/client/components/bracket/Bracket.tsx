@@ -7,9 +7,9 @@ import toggleView from './reducer';
 // eventually pass tournament ID into Bracket
 // use it to useQuery and set state
 
-export interface matchUpRenderObjectTEST {
-  [k: string]: (typeof testTournamentData.matchUps)[];
-}
+// export interface matchUpRenderObjectTEST {
+//   [k: string]: (typeof testTournamentData.matchUps)[];
+// }
 
 const initialDisplayState = {
   unidirectional: true,
@@ -30,61 +30,52 @@ const Bracket = () => {
     initialDisplayState
   );
 
-  const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
+  const [matchUps, setMatchUps] = useState<
+    (typeof testTournamentData.matchUps)[]
+  >([]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
-    const matchUpData: matchUpRenderObjectTEST = {};
+    // sorting logic moves to here
+    // arrays? destructuring?
+    // add column keys in render function
+    testTournamentData.matchUps.sort((a, b) => a.matchNumber - b.matchNumber);
+
+    const matchUpData: (typeof testTournamentData.matchUps)[] = [];
     const { unidirectional, numberOfColumns } = displayState;
     if (unidirectional) {
       for (let i = 1; i <= numberOfColumns; i++) {
-        const key = 'round' + i.toString();
-        matchUpData[key] = [];
         const matchUpsFromRound = testTournamentData.matchUps.filter(
           (el) => el.round === i
         );
-        matchUpsFromRound.forEach((el) => matchUpData[key].push(el));
+        matchUpData.push(matchUpsFromRound);
       }
     } else {
-      // store new number of columns in block-scoped variable for use in for loop. We can't rely on state being updated immediately
-      for (let i = 1; i < numberOfColumns; i++) {
-        console.log(displayState);
-        console.log(matchUps);
-
+      console.log(numberOfColumns);
+      for (let i = (numberOfColumns + 1) / 2; i > 0; i--) {
         const matchUpsFromRound = testTournamentData.matchUps.filter(
           (el) => el.round === i
         );
-
-        // Math.ceil accounts for last iterations, when matchUpsFromRound has a length of 1
-        // possible there's a better way to short-circuit on the last iteration
-        const middleIndex = Math.ceil(matchUpsFromRound.length / 2);
-        const left = matchUpsFromRound.slice(0, middleIndex);
-        const right = matchUpsFromRound.slice(middleIndex);
-
-        if (left.length) {
-          let key = `lRound${i.toString()}`;
-          matchUpData[key] = [];
-          left.forEach((el) => matchUpData[key].push(el));
+        const mid = matchUpsFromRound.length / 2;
+        if (mid === 0.5) {
+          matchUpData.push(matchUpsFromRound);
+        } else {
+          matchUpData.unshift(matchUpsFromRound.slice(0, mid));
+          matchUpData.push(matchUpsFromRound.slice(mid));
         }
-        if (right.length) {
-          let key = `rRound${i.toString()}`;
-          matchUpData[key] = [];
-          if (right.length) right.forEach((el) => matchUpData[key].push(el));
-        }
+        console.log(i, matchUpData);
       }
     }
+    console.log(matchUpData);
     setMatchUps(matchUpData);
   }, [displayState]);
 
   return (
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
-        {Object.keys(matchUps)
-          // if bracket has left and right wings, sort columns of matchups accordingly
-          .sort((a) => (a[0] === 'l' ? 1 : -1))
-          .map((round, index) => {
-            return <RoundColumn key={index} roundData={matchUps[round]} />;
-          })}
+        {matchUps.map((column, index) => {
+          return <RoundColumn key={index} columnData={column} />;
+        })}
       </div>
       <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
     </div>
