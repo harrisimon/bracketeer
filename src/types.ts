@@ -98,3 +98,9 @@ export interface ContestantProps {
 export interface InputProps extends ContestantProps {
   setSliderVal: Dispatch<SetStateAction<number>>;
 }
+
+export interface UserType {
+  email: String
+  hashedPassword: String
+  token: String
+}
