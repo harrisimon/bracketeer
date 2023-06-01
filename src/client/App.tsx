@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import './App.css';
 import CreateBracket from './components/CreateBracket';
 import Home from './components/pages/home';
-import Bracket from './components/Bracket';
+import Bracket from './components/bracket/Bracket';
 
 function App() {
   const [count, setCount] = useState(0);

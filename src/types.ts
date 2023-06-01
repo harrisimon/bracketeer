@@ -55,7 +55,6 @@ export interface MatchUpType {
   matchNumber: number;
 }
 
-
 export interface ContestantType {
   name: String;
   seed: number;
@@ -74,9 +73,9 @@ export interface TournamentType {
 }
 
 export interface ContestantsPostType {
-  contestants: String[]
-  roundInterval?: IntegerType
-  displayVotesDuringRound?: Boolean
+  contestants: String[];
+  roundInterval?: IntegerType;
+  displayVotesDuringRound?: Boolean;
 }
 
 export interface SliderProps {
@@ -99,8 +98,20 @@ export interface InputProps extends ContestantProps {
   setSliderVal: Dispatch<SetStateAction<number>>;
 }
 
+export interface displayStateProps {
+  unidirectional: boolean;
+  numberOfColumns: number;
+  displaySettings: bracketDisplaySettings;
+}
+
+export interface bracketDisplaySettings {
+  gridTemplateColumns: string;
+  columnGap: string;
+}
+
 export interface UserType {
   email: String
   hashedPassword: String
   token: String
 }
+
