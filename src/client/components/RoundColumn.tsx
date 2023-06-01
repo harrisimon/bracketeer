@@ -3,20 +3,18 @@ import { useXarrow, Xwrapper } from 'react-xarrows';
 import testTournamentData from '../../assets/test_data/test-tournament';
 import { useEffect } from 'react';
 
-const RoundColumn = (props) => {
-  console.log('from rc: ', props);
-  const { columnData } = props;
+const RoundColumn = (props: typeof testTournamentData.matchUps) => {
   const updateXarrow = useXarrow();
   // when roundData changes, redraw arrows based on new positions of matchup divs
   useEffect(() => {
     updateXarrow();
   }, [props]);
 
-  columnData.sort((a, b) => a.matchNumber - b.matchNumber);
+  props.sort((a, b) => a.matchNumber - b.matchNumber);
 
   return (
     <div className='round-column'>
-      {columnData.map((el, index) => {
+      {props.map((el, index) => {
         return (
           <div
             className='matchup-container'
