@@ -104,17 +104,12 @@ const Bracket = () => {
   return (
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
-        {matchUps.map((column, index) => {
-          return (
-            <RoundColumn
-              key={index}
-              columnData={column}
-              currentRound={round}
-              selected={selected}
-              updateSelections={updateSelections}
-            />
-          );
-        })}
+        {Object.keys(matchUps)
+          // if bracket has left and right wings, sort columns of matchups accordingly
+          .sort((a, b) => (a[0] === 'l' ? 1 : -1))
+          .map((round, index) => {
+            return <RoundColumn key={index} roundData={matchUps[round]} />;
+          })}
       </div>
       <button
         onClick={() =>
