@@ -81,7 +81,7 @@ const Bracket = () => {
       <div className='bracket-render-grid' style={displayState.displaySettings}>
         {Object.keys(matchUps)
           // if bracket has left and right wings, sort columns of matchups accordingly
-          .sort((a) => (a[0] === 'l' ? 1 : -1))
+          .sort((a, b) => (a[0] === 'l' ? 1 : -1))
           .map((round, index) => {
             return <RoundColumn key={index} roundData={matchUps[round]} />;
           })}

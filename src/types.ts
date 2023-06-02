@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
 import { Dispatch, SetStateAction } from 'react';
 import { IntegerType } from 'mongodb';
@@ -113,5 +113,7 @@ export interface UserType {
   email: String
   hashedPassword: String
   token: String
+  createdBrackets:TournamentType[]
+  invitedBrackets: TournamentType[]
 }
 
