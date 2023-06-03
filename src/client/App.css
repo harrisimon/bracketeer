@@ -40,6 +40,8 @@
 .matchup-container {
   border: 1px solid blue;
   width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
   margin: 5px;
 }
 
@@ -47,4 +49,10 @@
   border: 1px solid red;
   height: 25px;
   margin: 5px;
+}
+
+.contestant-votes {
+  border: 1px solid rgb(66, 66, 66);
+  height: 25px;
+  margin: 5px 5px 5px 0px;
 }
