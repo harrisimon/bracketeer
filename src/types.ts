@@ -33,26 +33,26 @@ export interface DepthWrapperType {
   depth: (root: BracketType | null) => number;
 }
 
-// consolidate these two interfaces - one can prob extend the other
 export interface MatchUpInput {
   tournament: Types.ObjectId;
-  contestant1?: Types.ObjectId;
-  contestant2?: Types.ObjectId;
+  contestant1?: string;
+  contestant2?: string;
   round: number;
-  next: number;
+  next?: number;
   matchNumber: number;
 }
 
 export interface MatchUpType {
-  ObjectId: Types.ObjectId;
-  tournament: Types.ObjectId; //?
-  contestant1?: ContestantType;
-  contestant2?: ContestantType;
-  contestant1votes?: number;
-  contestant2votes?: number;
-  next?: number;
+  _id: string;
+  tournament: string;
+  contestant1votes: number;
+  contestant2votes: number;
   round: number;
   matchNumber: number;
+  __v: number;
+  next?: undefined;
+  contestant1?: undefined;
+  contestant2?: undefined;
 }
 
 export interface ContestantType {
@@ -110,8 +110,7 @@ export interface bracketDisplaySettings {
 }
 
 export interface UserType {
-  email: String
-  hashedPassword: String
-  token: String
+  email: String;
+  hashedPassword: String;
+  token: String;
 }
-

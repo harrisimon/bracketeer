@@ -1,7 +1,9 @@
-import { useState, useLayoutEffect, useReducer } from 'react';
+import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
 import toggleView from './reducer';
+import { MatchUpType } from '../../../types';
+import axios from 'axios';
 
 //typing will have to change once dummy data replaced with real API calls
 // eventually pass tournament ID into Bracket
@@ -11,6 +13,7 @@ import toggleView from './reducer';
 //   [k: string]: (typeof testTournamentData.matchUps)[];
 // }
 
+// UPDATE
 const initialDisplayState = {
   unidirectional: true,
   numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
@@ -30,55 +33,82 @@ const Bracket = () => {
     initialDisplayState
   );
 
-  const [matchUps, setMatchUps] = useState<
-    (typeof testTournamentData.matchUps)[]
-  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  // use this vv rather than isLoading to avoid redudancy?
+  const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
+  const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
+
+  // //useCallback?
+  // add try/catch
+  const getMatchUps = async (id: string) => {
+    const response = await axios.get(`http://localhost:8000/tournament/${id}`);
+    console.log('axios res: ', response.data);
+    setMatchUpResponse(response.data.matchUps);
+  };
+
+  // tournament should have a currentRound property, maybe?
+  // more semantic but another failure point to calculate the round server-side
+  // but also the server has to get involved at some point to advanced contestants
+  // hard-code test tournament id for now
+  useEffect(() => {
+    getMatchUps('647a955d7e7a4062868ca305');
+  }, []);
+
+  useEffect(() => {
+    if (matchUps.length) setIsLoading(false);
+  }, [matchUps]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
-    // sorting logic moves to here
-    // arrays? destructuring?
-    // add column keys in render function
-    testTournamentData.matchUps.sort((a, b) => a.matchNumber - b.matchNumber);
+    if (matchUpResponse.length) {
+      console.log('ULE begin: ', matchUps);
+      // sorting logic moves to here
+      // arrays? destructuring?
+      // add column keys in render function
+      matchUpResponse.sort((a, b) => a.matchNumber - b.matchNumber);
 
-    const matchUpData: (typeof testTournamentData.matchUps)[] = [];
-    const { unidirectional, numberOfColumns } = displayState;
-    if (unidirectional) {
-      for (let i = 1; i <= numberOfColumns; i++) {
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
-          (el) => el.round === i
-        );
-        matchUpData.push(matchUpsFromRound);
-      }
-    } else {
-      console.log(numberOfColumns);
-      for (let i = (numberOfColumns + 1) / 2; i > 0; i--) {
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
-          (el) => el.round === i
-        );
-        const mid = matchUpsFromRound.length / 2;
-        if (mid === 0.5) {
+      const matchUpData: MatchUpType[][] = [];
+      const { unidirectional, numberOfColumns } = displayState;
+      if (unidirectional) {
+        for (let i = 1; i <= numberOfColumns; i++) {
+          const matchUpsFromRound = matchUpResponse.filter(
+            (el) => el.round === i
+          );
           matchUpData.push(matchUpsFromRound);
-        } else {
-          matchUpData.unshift(matchUpsFromRound.slice(0, mid));
-          matchUpData.push(matchUpsFromRound.slice(mid));
         }
-        console.log(i, matchUpData);
+      } else {
+        console.log(numberOfColumns);
+        for (let i = (numberOfColumns + 1) / 2; i > 0; i--) {
+          const matchUpsFromRound = matchUpResponse.filter(
+            (el) => el.round === i
+          );
+          const mid = matchUpsFromRound.length / 2;
+          if (mid === 0.5) {
+            matchUpData.push(matchUpsFromRound);
+          } else {
+            matchUpData.unshift(matchUpsFromRound.slice(0, mid));
+            matchUpData.push(matchUpsFromRound.slice(mid));
+          }
+          // console.log(i, matchUpData);
+        }
       }
+      console.log('md after ULE: ', matchUpData);
+      setIsLoading(false);
+      setMatchUps(matchUpData);
     }
-    console.log(matchUpData);
-    setMatchUps(matchUpData);
   }, [displayState]);
 
-  return (
-    <div>
+  return isLoading ? (
+    <div className='loading-message'>Loading...</div>
+  ) : (
+    <>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
         {matchUps.map((column, index) => {
           return <RoundColumn key={index} columnData={column} />;
         })}
       </div>
       <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
-    </div>
+    </>
   );
 };
 
