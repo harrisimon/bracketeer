@@ -42,6 +42,7 @@ const Bracket = () => {
   // add try/catch
   const getMatchUps = async (id: string) => {
     const response = await axios.get(`http://localhost:8000/tournament/${id}`);
+    console.log('axios res: ', response.data);
     setMatchUpResponse(response.data.matchUps);
   };
 

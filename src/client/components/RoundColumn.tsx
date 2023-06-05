@@ -24,10 +24,8 @@ const RoundColumn = (props: { columnData: MatchUpType[] }) => {
             id={`matchup${el.matchNumber}`}
             key={index}
           >
-            <div className='contestant-container'>{el.contestant1}</div>
-            <div className='contestant-votes'>{el.contestant1votes}</div>
-            <div className='contestant-container'>{el.contestant2}</div>
-            <div className='contestant-votes'>{el.contestant2votes}</div>
+            <div className='contestant-container'>{el.matchNumber}</div>
+            <div className='contestant-container'>{el.matchNumber}</div>
             {el.next && (
               <Xwrapper>
                 <Xarrow
