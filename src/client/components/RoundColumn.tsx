@@ -2,9 +2,10 @@ import Xarrow from 'react-xarrows';
 import { useXarrow, Xwrapper } from 'react-xarrows';
 import testTournamentData from '../../assets/test_data/test-tournament';
 import { useEffect } from 'react';
-import { MatchUpType } from '../../types';
 
-const RoundColumn = (props: { columnData: MatchUpType[] }) => {
+const RoundColumn = (props: {
+  columnData: typeof testTournamentData.matchUps;
+}) => {
   console.log('from rc: ', props);
   const { columnData } = props;
   const updateXarrow = useXarrow();
