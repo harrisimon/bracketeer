@@ -46,8 +46,8 @@ export interface MatchUpInput {
 export interface MatchUpType {
   ObjectId: Types.ObjectId;
   tournament: Types.ObjectId; //?
-  contestant1?: ContestantType;
-  contestant2?: ContestantType;
+  contestant1?: string;
+  contestant2?: string;
   contestant1votes?: number;
   contestant2votes?: number;
   next?: number;
@@ -110,8 +110,7 @@ export interface bracketDisplaySettings {
 }
 
 export interface UserType {
-  email: String
-  hashedPassword: String
-  token: String
+  email: String;
+  hashedPassword: String;
+  token: String;
 }
-

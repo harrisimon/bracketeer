@@ -1,7 +1,9 @@
-import { useState, useLayoutEffect, useReducer } from 'react';
+import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
 import toggleView from './reducer';
+import axios from 'axios';
+import { MatchUpType } from '../../../types';
 
 //typing will have to change once dummy data replaced with real API calls
 // eventually pass tournament ID into Bracket
@@ -30,22 +32,50 @@ const Bracket = () => {
     initialDisplayState
   );
 
-  const [matchUps, setMatchUps] = useState<
-    (typeof testTournamentData.matchUps)[]
-  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  // use this vv rather than isLoading to avoid redudancy?
+  const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
+  const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
+
+  // //useCallback?
+  // add try/catch
+  const getMatchUps = async (id: string) => {
+    console.log('GET');
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/tournament/${id}`
+      );
+      console.log('axios res: ', response.data);
+      setMatchUpResponse(response.data.matchUps);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // tournament should have a currentRound property, maybe?
+  // more semantic but another failure point to calculate the round server-side
+  // but also the server has to get involved at some point to advanced contestants
+  // hard-code test tournament id for now
+  useEffect(() => {
+    getMatchUps('647a955d7e7a4062868ca305');
+  }, []);
+
+  useEffect(() => {
+    if (matchUpResponse.length) setIsLoading(false);
+  }, [matchUpResponse]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
     // sorting logic moves to here
     // arrays? destructuring?
     // add column keys in render function
-    testTournamentData.matchUps.sort((a, b) => a.matchNumber - b.matchNumber);
+    matchUpResponse.sort((a, b) => a.matchNumber - b.matchNumber);
 
-    const matchUpData: (typeof testTournamentData.matchUps)[] = [];
+    const matchUpData: MatchUpType[][] = [];
     const { unidirectional, numberOfColumns } = displayState;
     if (unidirectional) {
       for (let i = 1; i <= numberOfColumns; i++) {
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
+        const matchUpsFromRound = matchUpResponse.filter(
           (el) => el.round === i
         );
         matchUpData.push(matchUpsFromRound);
@@ -53,7 +83,7 @@ const Bracket = () => {
     } else {
       console.log(numberOfColumns);
       for (let i = (numberOfColumns + 1) / 2; i > 0; i--) {
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
+        const matchUpsFromRound = matchUpResponse.filter(
           (el) => el.round === i
         );
         const mid = matchUpsFromRound.length / 2;
@@ -68,7 +98,7 @@ const Bracket = () => {
     }
     console.log(matchUpData);
     setMatchUps(matchUpData);
-  }, [displayState]);
+  }, [displayState, matchUpResponse]);
 
   return (
     <div>
