@@ -60,7 +60,7 @@ const Bracket = () => {
   // but also the server has to get involved at some point to advanced contestants
   // hard-code test tournament id for now
   useEffect(() => {
-    getMatchUps('647a955d7e7a4062868ca305');
+    getMatchUps('64863e1bf5a5d7a132318e76');
   }, []);
 
   useEffect(() => {

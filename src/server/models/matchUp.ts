@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { MatchUpType } from '../../types';
+import { MatchUpType, ContestantType } from '../../types';
+import { Contestant } from './contestant';
 
 const matchUpSchema: Schema = new Schema<MatchUpType>({
   tournament: { type: Schema.Types.ObjectId, ref: 'tournament' },
-  contestant1: { type: Schema.Types.ObjectId, ref: 'contestant' },
-  contestant2: { type: Schema.Types.ObjectId, ref: 'contestant' },
+  contestant1: { type: Object },
+  contestant2: { type: Object },
   contestant1votes: { type: Number, default: 0 },
   contestant2votes: { type: Number, default: 0 },
   next: { type: Number }, // refers by match number to the match that the winner of this matchup will join

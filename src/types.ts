@@ -36,8 +36,8 @@ export interface DepthWrapperType {
 // consolidate these two interfaces - one can prob extend the other
 export interface MatchUpInput {
   tournament: Types.ObjectId;
-  contestant1?: Types.ObjectId;
-  contestant2?: Types.ObjectId;
+  contestant1?: ContestantType;
+  contestant2?: ContestantType;
   round: number;
   next: number;
   matchNumber: number;
@@ -46,8 +46,8 @@ export interface MatchUpInput {
 export interface MatchUpType {
   ObjectId: Types.ObjectId;
   tournament: Types.ObjectId; //?
-  contestant1?: string;
-  contestant2?: string;
+  contestant1?: ContestantType;
+  contestant2?: ContestantType;
   contestant1votes?: number;
   contestant2votes?: number;
   next?: number;

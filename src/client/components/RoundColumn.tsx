@@ -4,8 +4,10 @@ import testTournamentData from '../../assets/test_data/test-tournament';
 import { useEffect, MouseEventHandler } from 'react';
 import { MatchUpType } from '../../types';
 
-
-const RoundColumn = (props: { columnData: MatchUpType[], currentRound: number }) => {
+const RoundColumn = (props: {
+  columnData: MatchUpType[];
+  currentRound: number;
+}) => {
   console.log('from rc: ', props);
   const { columnData, currentRound } = props;
   const updateXarrow = useXarrow();
@@ -23,6 +25,7 @@ const RoundColumn = (props: { columnData: MatchUpType[], currentRound: number })
   return (
     <div className='round-column'>
       {columnData.map((el, index) => {
+        console.log('el: ', el);
         return (
           <div
             className={`matchup-container ${
@@ -31,8 +34,12 @@ const RoundColumn = (props: { columnData: MatchUpType[], currentRound: number })
             id={`matchup${el.matchNumber}`}
             key={index}
           >
-            <div className='contestant-container A'>{el.contestant1}</div>
-            <div className='contestant-container B'>{el.contestant2}</div>
+            <div className='contestant-container A'>
+              {el.contestant1 && el.contestant1.name}
+            </div>
+            <div className='contestant-container B'>
+              {el.contestant2 && el.contestant2.name}
+            </div>
             {el.next && (
               <Xwrapper>
                 <Xarrow
