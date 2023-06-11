@@ -5,16 +5,6 @@ import toggleView from './reducer';
 import axios from 'axios';
 import { MatchUpType } from '../../../types';
 
-//typing will have to change once dummy data replaced with real API calls
-// eventually pass tournament ID into Bracket
-// use it to useQuery and set state
-
-// export interface matchUpRenderObjectTEST {
-//   [k: string]: (typeof testTournamentData.matchUps)[];
-// }
-
-const TOURNAMENT_ROUND = 1;
-
 const initialDisplayState = {
   unidirectional: true,
   numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
@@ -39,6 +29,8 @@ const Bracket = () => {
   const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
   const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
   const [selected, setSelected] = useState<number[][]>([]);
+  const [displayVotes, setDisplayVotes] = useState<boolean>(false);
+  const [round, setRound] = useState<number>(1);
 
   // //useCallback?
 
@@ -70,7 +62,7 @@ const Bracket = () => {
     // better to use array or object?
     const selectionArray = [];
     matchUpResponse.filter((el) => {
-      if (el.round === TOURNAMENT_ROUND) selectionArray.push(0);
+      if (el.round === round) selectionArray.push(0);
     });
   }, [matchUpResponse]);
 
@@ -101,8 +93,8 @@ const Bracket = () => {
         if (mid === 0.5) {
           matchUpData.push(matchUpsFromRound);
         } else {
-          matchUpData.unshift(matchUpsFromRound.slice(0, mid));
-          matchUpData.push(matchUpsFromRound.slice(mid));
+          matchUpData.push(matchUpsFromRound.slice(0, mid));
+          matchUpData.unshift(matchUpsFromRound.slice(mid));
         }
         console.log(i, matchUpData);
       }
@@ -115,10 +107,18 @@ const Bracket = () => {
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
         {matchUps.map((column, index) => {
-          return <RoundColumn key={index} columnData={column} />;
+          return (
+            <RoundColumn key={index} columnData={column} currentRound={round} />
+          );
         })}
       </div>
       <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
+      <button onClick={() => setRound(() => round + 1)}>
+        TEST: Next Round
+      </button>
+      <button onClick={() => setRound(() => round - 1)}>
+        TEST: Previous Round
+      </button>
     </div>
   );
 };

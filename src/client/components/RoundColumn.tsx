@@ -20,7 +20,7 @@ const RoundColumn = (props: {
   //   if (e.target) (e.target as HTMLElement).innerHTML = 'hovered!';
   // };
 
-  columnData.sort((a, b) => a.matchNumber - b.matchNumber);
+  columnData.sort((a, b) => b.matchNumber - a.matchNumber);
 
   return (
     <div className='round-column'>
