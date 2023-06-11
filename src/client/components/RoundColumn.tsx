@@ -8,7 +8,6 @@ const RoundColumn = (props: {
   columnData: MatchUpType[];
   currentRound: number;
 }) => {
-  console.log('from rc: ', props);
   const { columnData, currentRound } = props;
   const updateXarrow = useXarrow();
   // when roundData changes, redraw arrows based on new positions of matchup divs
@@ -25,7 +24,6 @@ const RoundColumn = (props: {
   return (
     <div className='round-column'>
       {columnData.map((el, index) => {
-        console.log('el: ', el);
         return (
           <div
             className={`matchup-container ${
