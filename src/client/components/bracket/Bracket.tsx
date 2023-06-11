@@ -13,6 +13,8 @@ import { MatchUpType } from '../../../types';
 //   [k: string]: (typeof testTournamentData.matchUps)[];
 // }
 
+const TOURNAMENT_ROUND = 1;
+
 const initialDisplayState = {
   unidirectional: true,
   numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
@@ -36,9 +38,10 @@ const Bracket = () => {
   // use this vv rather than isLoading to avoid redudancy?
   const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
   const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
+  const [selected, setSelected] = useState<number[][]>([]);
 
   // //useCallback?
-  // add try/catch
+
   const getMatchUps = async (id: string) => {
     console.log('GET');
     try {
@@ -61,11 +64,19 @@ const Bracket = () => {
   }, []);
 
   useEffect(() => {
+    console.log('USEEFFECT');
     if (matchUpResponse.length) setIsLoading(false);
+
+    // better to use array or object?
+    const selectionArray = [];
+    matchUpResponse.filter((el) => {
+      if (el.round === TOURNAMENT_ROUND) selectionArray.push(0);
+    });
   }, [matchUpResponse]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
+    console.log('USELAYOUTEFFECT');
     // sorting logic moves to here
     // arrays? destructuring?
     // add column keys in render function
