@@ -19,14 +19,12 @@ export default function processMatchups(
       const matchUpsFromRound = matchUpResponse.filter((el) => el.round === i);
       const mid = matchUpsFromRound.length / 2;
       if (mid === 0.5) {
-        // if round length is 1, there's just one element to push
         matchUpData.push(matchUpsFromRound);
       } else {
-        // otherwise, halve the array of matchups that represents each round
-        // push and unshift so that the earliest rounds are outermost
         matchUpData.push(matchUpsFromRound.slice(0, mid));
         matchUpData.unshift(matchUpsFromRound.slice(mid));
       }
+      console.log(i, matchUpData);
     }
   }
   return matchUpData;
