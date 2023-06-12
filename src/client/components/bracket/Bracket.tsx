@@ -69,11 +69,11 @@ const Bracket = () => {
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
-    console.log('USELAYOUTEFFECT');
     // sorting logic moves to here
     // arrays? destructuring?
     // add column keys in render function
     const matchUpData = processMatchups(matchUpResponse, displayState);
+    console.log('MUD: ', matchUpData);
     setMatchUps(matchUpData);
   }, [displayState, matchUpResponse]);
 
