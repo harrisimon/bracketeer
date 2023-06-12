@@ -1,27 +1,28 @@
-import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  Reducer,
+} from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
-import toggleView from './reducer';
+import changeDisplay from './reducer';
 import axios from 'axios';
-import { MatchUpType } from '../../../types';
+import { MatchUpType, displayStateProps } from '../../../types';
 import processMatchups from './processMatchups';
+import initialDisplayState from './initialDisplayState';
 
-const initialDisplayState = {
-  unidirectional: true,
-  numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
-  displaySettings: {
-    gridTemplateColumns: `repeat(${Math.log2(
-      testTournamentData.matchUps.length + 1
-    )}, 1fr)`,
-    columnGap: '10%',
-  },
-};
+const TEST_TOURNAMENT_ID = '64863e1bf5a5d7a132318e76';
+
+export interface displayReducerProps {
+  type: string;
+  payload: any;
+}
 
 const Bracket = () => {
-  // combine state updates with useReducer?
-
   const [displayState, displayDispatch] = useReducer(
-    toggleView,
+    changeDisplay,
     initialDisplayState
   );
 
@@ -33,7 +34,7 @@ const Bracket = () => {
   const [displayVotes, setDisplayVotes] = useState<boolean>(false);
   const [round, setRound] = useState<number>(1);
 
-  // //useCallback?
+  // //useCallback w/active tournament ID?
 
   const getMatchUps = async (id: string) => {
     console.log('GET');
@@ -53,13 +54,11 @@ const Bracket = () => {
   // but also the server has to get involved at some point to advanced contestants
   // hard-code test tournament id for now
   useEffect(() => {
-    getMatchUps('64863e1bf5a5d7a132318e76');
+    getMatchUps(TEST_TOURNAMENT_ID);
   }, []);
 
   useEffect(() => {
     console.log('USEEFFECT');
-    if (matchUpResponse.length) setIsLoading(false);
-
     // better to use array or object?
     const selectionArray = [];
     matchUpResponse.filter((el) => {
@@ -67,17 +66,17 @@ const Bracket = () => {
     });
   }, [matchUpResponse]);
 
-  // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
+  // convert response from DB into array of arrays of matchup objects -- one sub-array per displayed column
   useLayoutEffect(() => {
-    console.log('USELAYOUTEFFECT');
-    // sorting logic moves to here
-    // arrays? destructuring?
-    // add column keys in render function
+    console.log('ULE');
+    if (matchUpResponse.length) setIsLoading(false);
     const matchUpData = processMatchups(matchUpResponse, displayState);
     setMatchUps(matchUpData);
   }, [displayState, matchUpResponse]);
 
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
         {matchUps.map((column, index) => {
@@ -86,7 +85,19 @@ const Bracket = () => {
           );
         })}
       </div>
-      <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
+      <button
+        onClick={() =>
+          displayDispatch({
+            type: 'updateDisplay',
+            payload: {
+              unidirectional: !displayState.unidirectional,
+              matchUps: matchUpResponse.length,
+            },
+          })
+        }
+      >
+        Toggle View
+      </button>
       <button onClick={() => setRound(() => round + 1)}>
         TEST: Next Round
       </button>
