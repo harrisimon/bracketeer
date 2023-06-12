@@ -1,18 +1,16 @@
 import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
-import toggleView from './reducer';
+import updateDisplay from './reducer';
 import axios from 'axios';
 import { MatchUpType } from '../../../types';
 import processMatchups from './processMatchups';
 
 const initialDisplayState = {
   unidirectional: true,
-  numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
+  numberOfColumns: 0,
   displaySettings: {
-    gridTemplateColumns: `repeat(${Math.log2(
-      testTournamentData.matchUps.length + 1
-    )}, 1fr)`,
+    gridTemplateColumns: `repeat(4, 1fr)`,
     columnGap: '10%',
   },
 };
@@ -21,7 +19,7 @@ const Bracket = () => {
   // combine state updates with useReducer?
 
   const [displayState, displayDispatch] = useReducer(
-    toggleView,
+    updateDisplay,
     initialDisplayState
   );
 
@@ -36,7 +34,6 @@ const Bracket = () => {
   // //useCallback?
 
   const getMatchUps = async (id: string) => {
-    console.log('GET');
     try {
       const response = await axios.get(
         `http://localhost:8000/tournament/${id}`
@@ -59,7 +56,13 @@ const Bracket = () => {
   useEffect(() => {
     console.log('USEEFFECT');
     if (matchUpResponse.length) setIsLoading(false);
-
+    displayDispatch({
+      type: 'updateDisplay',
+      payload: {
+        unidirectional: displayState.unidirectional,
+        numberOfMatchUps: matchUpResponse.length,
+      },
+    });
     // better to use array or object?
     const selectionArray = [];
     matchUpResponse.filter((el) => {
@@ -86,7 +89,19 @@ const Bracket = () => {
           );
         })}
       </div>
-      <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
+      <button
+        onClick={() =>
+          displayDispatch({
+            type: 'updateDisplay',
+            payload: {
+              unidirectional: !displayState.unidirectional,
+              numberOfMatchUps: matchUpResponse.length,
+            },
+          })
+        }
+      >
+        Toggle View
+      </button>
       <button onClick={() => setRound(() => round + 1)}>
         TEST: Next Round
       </button>
