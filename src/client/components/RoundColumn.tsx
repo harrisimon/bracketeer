@@ -1,14 +1,15 @@
 import Xarrow from 'react-xarrows';
 import { useXarrow, Xwrapper } from 'react-xarrows';
-import testTournamentData from '../../assets/test_data/test-tournament';
-import { useEffect, MouseEventHandler } from 'react';
-import { MatchUpType } from '../../types';
+import { useEffect, MouseEvent } from 'react';
+import { MatchUpType, SelectionObject } from '../../types';
 
 const RoundColumn = (props: {
   columnData: MatchUpType[];
   currentRound: number;
+  selected: SelectionObject;
+  updateSelections: (e: MouseEvent<HTMLElement>) => void;
 }) => {
-  const { columnData, currentRound } = props;
+  const { columnData, currentRound, updateSelections, selected } = props;
   const updateXarrow = useXarrow();
   // when roundData changes, redraw arrows based on new positions of matchup divs
   useEffect(() => {
@@ -32,10 +33,24 @@ const RoundColumn = (props: {
             id={`matchup${el.matchNumber}`}
             key={index}
           >
-            <div className='contestant-container A'>
+            <div
+              className={
+                'contestant-container A' +
+                (selected[el.matchNumber] === 1 ? ' selected' : '')
+              }
+              id={`${el.matchNumber}-1`}
+              onClick={updateSelections}
+            >
               {el.contestant1 && el.contestant1.name}
             </div>
-            <div className='contestant-container B'>
+            <div
+              className={
+                'contestant-container B' +
+                (selected[el.matchNumber] === 2 ? ' selected' : '')
+              }
+              id={`${el.matchNumber}-2`}
+              onClick={updateSelections}
+            >
               {el.contestant2 && el.contestant2.name}
             </div>
             {el.next && (

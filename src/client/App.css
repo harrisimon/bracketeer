@@ -50,7 +50,11 @@
 }
 
 .active > div:hover {
-  background-color: lightgreen;
+  background-color: lightblue;
+}
+
+.selected {
+  background-color: lightblue;
 }
 
 .inactive {

@@ -114,3 +114,7 @@ export interface UserType {
   hashedPassword: String;
   token: String;
 }
+
+export interface SelectionObject {
+  [k: string]: number;
+}

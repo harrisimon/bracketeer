@@ -1,19 +1,17 @@
-import { useState, useEffect, useLayoutEffect, useReducer } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  MouseEventHandler,
+} from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
 import updateDisplay from './reducer';
 import axios from 'axios';
-import { MatchUpType } from '../../../types';
+import { MatchUpType, SelectionObject } from '../../../types';
 import processMatchups from './processMatchups';
-
-const initialDisplayState = {
-  unidirectional: true,
-  numberOfColumns: 0,
-  displaySettings: {
-    gridTemplateColumns: `repeat(4, 1fr)`,
-    columnGap: '10%',
-  },
-};
+import initialDisplayState from './initialDisplayState';
 
 const Bracket = () => {
   // combine state updates with useReducer?
@@ -27,7 +25,7 @@ const Bracket = () => {
   // use this vv rather than isLoading to avoid redudancy?
   const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
   const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
-  const [selected, setSelected] = useState<number[][]>([]);
+  const [selected, setSelected] = useState<SelectionObject>({});
   const [displayVotes, setDisplayVotes] = useState<boolean>(false);
   const [round, setRound] = useState<number>(1);
 
@@ -55,6 +53,7 @@ const Bracket = () => {
 
   useEffect(() => {
     console.log('USEEFFECT');
+    console.log(matchUpResponse);
     if (matchUpResponse.length) setIsLoading(false);
     displayDispatch({
       type: 'updateDisplay',
@@ -63,11 +62,17 @@ const Bracket = () => {
         numberOfMatchUps: matchUpResponse.length,
       },
     });
-    // better to use array or object?
-    const selectionArray = [];
+
+    // make object to store user's votes in current round
+    // 0 = no vote, 1 = contestant1, 2 = contestant2
+    const selections: SelectionObject = {};
     matchUpResponse.filter((el) => {
-      if (el.round === round) selectionArray.push(0);
+      if (el.round === round) {
+        selections[String(el.matchNumber)] = 0;
+      }
     });
+    console.log(selections);
+    setSelected(selections);
   }, [matchUpResponse]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
@@ -76,16 +81,34 @@ const Bracket = () => {
     // arrays? destructuring?
     // add column keys in render function
     const matchUpData = processMatchups(matchUpResponse, displayState);
-    console.log('MUD: ', matchUpData);
     setMatchUps(matchUpData);
   }, [displayState, matchUpResponse]);
+
+  // useCallback
+  const updateSelections = (e: MouseEvent) => {
+    console.log('target: ', e.target);
+    const [matchNumber, choice] = (e.target as Element).id
+      .split('-')
+      .map((el) => Number(el));
+    const newSelected = { ...selected };
+    if (selected[matchNumber] === choice) newSelected[matchNumber] = 0;
+    else newSelected[matchNumber] = choice;
+    console.log('NS:', newSelected);
+    setSelected(newSelected);
+  };
 
   return (
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
         {matchUps.map((column, index) => {
           return (
-            <RoundColumn key={index} columnData={column} currentRound={round} />
+            <RoundColumn
+              key={index}
+              columnData={column}
+              currentRound={round}
+              selected={selected}
+              updateSelections={updateSelections}
+            />
           );
         })}
       </div>
