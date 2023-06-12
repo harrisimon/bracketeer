@@ -3,7 +3,8 @@ import {
   useEffect,
   useLayoutEffect,
   useReducer,
-  MouseEventHandler,
+  MouseEvent,
+  useCallback,
 } from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
@@ -84,18 +85,21 @@ const Bracket = () => {
     setMatchUps(matchUpData);
   }, [displayState, matchUpResponse]);
 
-  // useCallback
-  const updateSelections = (e: MouseEvent) => {
-    console.log('target: ', e.target);
-    const [matchNumber, choice] = (e.target as Element).id
-      .split('-')
-      .map((el) => Number(el));
-    const newSelected = { ...selected };
-    if (selected[matchNumber] === choice) newSelected[matchNumber] = 0;
-    else newSelected[matchNumber] = choice;
-    console.log('NS:', newSelected);
-    setSelected(newSelected);
-  };
+  // only redefine this function when the user has changed their selections
+  const updateSelections = useCallback(
+    (e: MouseEvent) => {
+      console.log(selected);
+      const [matchNumber, choice] = (e.target as Element).id
+        .split('-')
+        .map((el) => Number(el));
+      const newSelected = { ...selected };
+      if (selected[matchNumber] === choice) newSelected[matchNumber] = 0;
+      else newSelected[matchNumber] = choice;
+      console.log('NS:', newSelected);
+      setSelected(newSelected);
+    },
+    [selected]
+  );
 
   return (
     <div>

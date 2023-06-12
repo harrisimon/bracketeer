@@ -7,7 +7,7 @@ const RoundColumn = (props: {
   columnData: MatchUpType[];
   currentRound: number;
   selected: SelectionObject;
-  updateSelections: (e: MouseEvent<HTMLElement>) => void;
+  updateSelections: (e: MouseEvent) => void;
 }) => {
   const { columnData, currentRound, updateSelections, selected } = props;
   const updateXarrow = useXarrow();
