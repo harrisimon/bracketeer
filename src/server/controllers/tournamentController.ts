@@ -25,19 +25,20 @@ tournamentController.getData = async (req, res, next) => {
 tournamentController.deleteTournament = async (req, res, next) => {
   const { tournamentID } = req.params;
   try {
-    console.log("the tournament to delete",tournamentID)
-    res.locals.matchUps = await MatchUp.deleteMany({ tournament: tournamentID });
+    console.log('Deleting tournament ', tournamentID);
+    res.locals.matchUps = await MatchUp.deleteMany({
+      tournament: tournamentID,
+    });
     res.locals.tournament = await Tournament.findByIdAndRemove(tournamentID);
     return next();
-  } catch (err){
+  } catch (err) {
     return next({
       log: `Error from tournamentController.deleteTournament: ${err}`,
       status: 500,
       message: { err: 'Failed to delete tournament' },
-    })
+    });
   }
-}
-
+};
 
 // Only for testing/dev
 tournamentController.clearData = async (req, res, next) => {
@@ -117,17 +118,15 @@ tournamentController.create = async (req, res, next) => {
         if (round === 2) {
           // for loop to avoid async/forEach problems
           for (let i = 0; i < props.length; i++) {
-            const contestant1 = await Contestant.create({
+            props[i].contestant1 = {
               name: contestants[j],
               seed: j + 1,
-            });
-            props[i].contestant1 = contestant1._id;
+            };
 
-            const contestant2 = await Contestant.create({
+            props[i].contestant2 = {
               name: contestants[k],
               seed: k + 1,
-            });
-            props[i].contestant2 = contestant2.id;
+            };
             // walk pointers in from the left and right of the array of contestants so that stronger and weaker seeds are matched against each other
             j++;
             k--;
@@ -146,7 +145,6 @@ tournamentController.create = async (req, res, next) => {
       message: { err: 'Failed to create tournament data' },
     });
   }
-
 };
 
 export default tournamentController;

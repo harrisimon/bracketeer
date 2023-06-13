@@ -1,92 +1,140 @@
-import { useState, useLayoutEffect, useReducer } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  MouseEvent,
+  useCallback,
+} from 'react';
 import testTournamentData from '../../../assets/test_data/test-tournament';
 import RoundColumn from '../RoundColumn';
-import toggleView from './reducer';
-
-//typing will have to change once dummy data replaced with real API calls
-// eventually pass tournament ID into Bracket
-// use it to useQuery and set state
-
-export interface matchUpRenderObjectTEST {
-  [k: string]: (typeof testTournamentData.matchUps)[];
-}
-
-const initialDisplayState = {
-  unidirectional: true,
-  numberOfColumns: Math.log2(testTournamentData.matchUps.length + 1),
-  displaySettings: {
-    gridTemplateColumns: `repeat(${Math.log2(
-      testTournamentData.matchUps.length + 1
-    )}, 1fr)`,
-    columnGap: '10%',
-  },
-};
+import updateDisplay from './reducer';
+import axios from 'axios';
+import { MatchUpType, SelectionObject } from '../../../types';
+import processMatchups from './processMatchups';
+import initialDisplayState from './initialDisplayState';
 
 const Bracket = () => {
   // combine state updates with useReducer?
 
   const [displayState, displayDispatch] = useReducer(
-    toggleView,
+    updateDisplay,
     initialDisplayState
   );
 
-  const [matchUps, setMatchUps] = useState<matchUpRenderObjectTEST>({});
+  const [isLoading, setIsLoading] = useState(true);
+  // use this vv rather than isLoading to avoid redudancy?
+  const [matchUpResponse, setMatchUpResponse] = useState<MatchUpType[]>([]);
+  const [matchUps, setMatchUps] = useState<MatchUpType[][]>([]);
+  const [selected, setSelected] = useState<SelectionObject>({});
+  const [displayVotes, setDisplayVotes] = useState<boolean>(false);
+  const [round, setRound] = useState<number>(1);
+
+  // //useCallback?
+
+  const getMatchUps = async (id: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/tournament/${id}`
+      );
+      console.log('axios res: ', response.data);
+      setMatchUpResponse(response.data.matchUps);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // tournament should have a currentRound property, maybe?
+  // more semantic but another failure point to calculate the round server-side
+  // but also the server has to get involved at some point to advanced contestants
+  // hard-code test tournament id for now
+  useEffect(() => {
+    getMatchUps('64863e1bf5a5d7a132318e76');
+  }, []);
+
+  useEffect(() => {
+    console.log('USEEFFECT');
+    console.log(matchUpResponse);
+    if (matchUpResponse.length) setIsLoading(false);
+    displayDispatch({
+      type: 'updateDisplay',
+      payload: {
+        unidirectional: displayState.unidirectional,
+        numberOfMatchUps: matchUpResponse.length,
+      },
+    });
+
+    // make object to store user's votes in current round
+    // 0 = no vote, 1 = contestant1, 2 = contestant2
+    const selections: SelectionObject = {};
+    matchUpResponse.filter((el) => {
+      if (el.round === round) {
+        selections[String(el.matchNumber)] = 0;
+      }
+    });
+    console.log(selections);
+    setSelected(selections);
+  }, [matchUpResponse]);
 
   // create matchUps object whose keys are round numbers and whose values are the array of matchups for each column
   useLayoutEffect(() => {
-    const matchUpData: matchUpRenderObjectTEST = {};
-    const { unidirectional, numberOfColumns } = displayState;
-    if (unidirectional) {
-      for (let i = 1; i <= numberOfColumns; i++) {
-        const key = 'round' + i.toString();
-        matchUpData[key] = [];
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
-          (el) => el.round === i
-        );
-        matchUpsFromRound.forEach((el) => matchUpData[key].push(el));
-      }
-    } else {
-      // store new number of columns in block-scoped variable for use in for loop. We can't rely on state being updated immediately
-      for (let i = 1; i < numberOfColumns; i++) {
-        console.log(displayState);
-        console.log(matchUps);
-
-        const matchUpsFromRound = testTournamentData.matchUps.filter(
-          (el) => el.round === i
-        );
-
-        // Math.ceil accounts for last iterations, when matchUpsFromRound has a length of 1
-        // possible there's a better way to short-circuit on the last iteration
-        const middleIndex = Math.ceil(matchUpsFromRound.length / 2);
-        const left = matchUpsFromRound.slice(0, middleIndex);
-        const right = matchUpsFromRound.slice(middleIndex);
-
-        if (left.length) {
-          let key = `lRound${i.toString()}`;
-          matchUpData[key] = [];
-          left.forEach((el) => matchUpData[key].push(el));
-        }
-        if (right.length) {
-          let key = `rRound${i.toString()}`;
-          matchUpData[key] = [];
-          if (right.length) right.forEach((el) => matchUpData[key].push(el));
-        }
-      }
-    }
+    // sorting logic moves to here
+    // arrays? destructuring?
+    // add column keys in render function
+    const matchUpData = processMatchups(matchUpResponse, displayState);
     setMatchUps(matchUpData);
-  }, [displayState]);
+  }, [displayState, matchUpResponse]);
+
+  // only redefine this function when the user has changed their selections
+  const updateSelections = useCallback(
+    (e: MouseEvent) => {
+      console.log(selected);
+      const [matchNumber, choice] = (e.target as Element).id
+        .split('-')
+        .map((el) => Number(el));
+      const newSelected = { ...selected };
+      if (selected[matchNumber] === choice) newSelected[matchNumber] = 0;
+      else newSelected[matchNumber] = choice;
+      console.log('NS:', newSelected);
+      setSelected(newSelected);
+    },
+    [selected]
+  );
 
   return (
     <div>
       <div className='bracket-render-grid' style={displayState.displaySettings}>
-        {Object.keys(matchUps)
-          // if bracket has left and right wings, sort columns of matchups accordingly
-          .sort((a) => (a[0] === 'l' ? 1 : -1))
-          .map((round, index) => {
-            return <RoundColumn key={index} roundData={matchUps[round]} />;
-          })}
+        {matchUps.map((column, index) => {
+          return (
+            <RoundColumn
+              key={index}
+              columnData={column}
+              currentRound={round}
+              selected={selected}
+              updateSelections={updateSelections}
+            />
+          );
+        })}
       </div>
-      <button onClick={() => displayDispatch('toggleView')}>Toggle View</button>
+      <button
+        onClick={() =>
+          displayDispatch({
+            type: 'updateDisplay',
+            payload: {
+              unidirectional: !displayState.unidirectional,
+              numberOfMatchUps: matchUpResponse.length,
+            },
+          })
+        }
+      >
+        Toggle View
+      </button>
+      <button onClick={() => setRound(() => round + 1)}>
+        TEST: Next Round
+      </button>
+      <button onClick={() => setRound(() => round - 1)}>
+        TEST: Previous Round
+      </button>
     </div>
   );
 };
